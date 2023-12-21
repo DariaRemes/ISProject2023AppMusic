@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 ;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class SongController {
@@ -17,13 +18,13 @@ public class SongController {
     public Song addSong(@RequestBody Song song){return songRepository.save(song);}
 
     @PatchMapping("/updateSong")
-    public void updateSong(String songId, String newTitle, String newGenre){
-        songRepository.updateSongById(songId,newTitle,newGenre);
+    public Song updateSong(@RequestAttribute String songId, String newTitle, String newGenre){
+        return songRepository.updateSongById(songId,newTitle,newGenre);
     }
 
     @DeleteMapping("/deleteSong")
-    public void deleteSong(String songId){
-        songRepository.deleteSongById(songId);
+    public Optional<Song> deleteSong(@RequestAttribute String songId){
+        return songRepository.deleteSongById(songId);
     }
 
     @GetMapping("/getAllSongs")

@@ -6,6 +6,8 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface SongRepository extends MongoRepository <Song,String> {
 
@@ -18,10 +20,12 @@ public interface SongRepository extends MongoRepository <Song,String> {
 
 
     @Query("{'_id': ?0 }")
-    void updateSongById(String songId, String newTitle, String genre);
+    Song updateSongById(String songId, String newTitle, String genre);
 
     @Query("{'_id': ?0}")
-    void deleteSongById(String songId);
+    Optional<Song> deleteSongById(String songId);
+
+
 
     //public long count();
 }
