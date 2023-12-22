@@ -1,9 +1,8 @@
 package com.example.musicapp2.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.springframework.stereotype.Service;
-
 
 @Entity
 @Table(name = "songs")
@@ -14,12 +13,11 @@ import org.springframework.stereotype.Service;
 @ToString
 public class Song{
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @NotNull(message = "Title should not be null")
     private String title;
-    private int playedNo;
+    private int played_no = 0;
+    @NotNull(message = "Genre should not be null")
     private String genre;
-
-
 }

@@ -8,24 +8,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class SongService {
-    @Autowired
-    private SongRepository songRepository;
+public interface SongService {
+    List<Song> getSongs();
+    Song getSong(Long id);
+    Song saveSong(Song song);
+    Song updateSong(Song song);
+    void deleteSong(Long id);
 
-    public List<Song> findAll(){
-        return songRepository.findAll();
-    }
 
-    public Song save(Song song){
-        return songRepository.save(song);
-    }
 
-    public Optional<Song> finfById(Long id){
-        return songRepository.findById(id);
-    }
-
-    public void deleteById(Long id){
-        songRepository.deleteById(id);
-    }
 }
