@@ -3,11 +3,16 @@ package com.example.musicapp2.service.impl;
 import com.example.musicapp2.model.Playlist;
 import com.example.musicapp2.model.Song;
 import com.example.musicapp2.repository.PlaylistRepository;
+import com.example.musicapp2.repository.SongRepository;
 import com.example.musicapp2.service.PlaylistService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -15,11 +20,8 @@ import java.util.Set;
 public class PlaylistServiceImpl implements PlaylistService {
     @Autowired
     private PlaylistRepository playlistRepository;
-
-//    public Set<Song> getSongsFromPlaylist(Long id) {
-//        Optional<Playlist> playlistOptional = playlistRepository.findById(id);
-//        return playlistOptional.map(Playlist::getSongs).orElse(Collections.emptySet());
-//    }
+    @Autowired
+    private SongRepository songRepository;
 
     @Override
     public Playlist getPlaylist(Long id) {
@@ -28,5 +30,53 @@ public class PlaylistServiceImpl implements PlaylistService {
             return playlist.get();
         }
         throw new RuntimeException("Playlist not found with id : " + id);
+    }
+
+    @Override
+    public List<Playlist> getPlaylists() {
+        return playlistRepository.findAll();
+    }
+
+    @Transactional
+    public Playlist addSongToPlaylist(Long playlistId, Long songId) {
+        // Retrieve the playlist and song
+        Playlist playlist = playlistRepository.findById(playlistId)
+                .orElseThrow(() -> new EntityNotFoundException("Playlist not found with id: " + playlistId));
+
+        Song song = songRepository.findById(songId)
+                .orElseThrow(() -> new EntityNotFoundException("Song not found with id: " + songId));
+        // Add the song to the playlist and the playlist to the song
+        playlist.getSongs().add(song);
+        // Save the changes to the database
+        System.out.println(songId);
+        return playlistRepository.save(playlist);
+    }
+
+    @Override
+    public Playlist deleteSongFromPlaylist(Long playlistId, Long songId) {
+        Playlist playlist = playlistRepository.findById(playlistId)
+                .orElseThrow(() -> new EntityNotFoundException("Playlist not found with id: " + playlistId));
+
+        Song song = songRepository.findById(songId)
+                .orElseThrow(() -> new EntityNotFoundException("Song not found with id: " + songId));
+        // Add the song to the playlist and the playlist to the song
+        playlist.getSongs().remove(song);
+        // Save the changes to the database
+        return playlistRepository.save(playlist);
+    }
+
+    @Override
+    public Playlist savePlaylist(Playlist playlist) {
+        return playlistRepository.save(playlist);
+    }
+
+    @Override
+    public Playlist updatePlaylist(Playlist playlist) {
+        return playlistRepository.save(playlist);
+    }
+
+    @Override
+    public void deletePlaylist(Long id) {
+        playlistRepository.deleteById(id);
     }
 }

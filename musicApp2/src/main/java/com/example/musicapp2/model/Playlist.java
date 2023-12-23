@@ -21,7 +21,7 @@ public class Playlist {
     @NotBlank(message = "Name is not valid")
     private String name;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
     @JoinTable(
             name = "playlist_song",
             joinColumns = @JoinColumn(name = "playlist_id"),
