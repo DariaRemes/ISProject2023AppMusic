@@ -1,6 +1,7 @@
 package com.example.musicapp2.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -15,9 +16,9 @@ public class Song{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull(message = "Title should not be null")
+    @NotBlank(message = "Title is not valid")
     private String title;
     private int played_no = 0;
-    @NotNull(message = "Genre should not be null")
+    @NotBlank(message = "Genre is not valid")
     private String genre;
 }
