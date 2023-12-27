@@ -48,7 +48,6 @@ public class PlaylistServiceImpl implements PlaylistService {
         // Add the song to the playlist and the playlist to the song
         playlist.getSongs().add(song);
         // Save the changes to the database
-        System.out.println(songId);
         return playlistRepository.save(playlist);
     }
 
