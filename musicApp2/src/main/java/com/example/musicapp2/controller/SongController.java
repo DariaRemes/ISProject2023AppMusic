@@ -10,6 +10,7 @@ import com.example.musicapp2.service.PlaylistService;
 import com.example.musicapp2.service.SongService;
 import com.example.musicapp2.service.impl.SongServiceImpl;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
