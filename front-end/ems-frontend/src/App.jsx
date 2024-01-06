@@ -9,6 +9,7 @@ import SongComponent from './components/SongComponent'
 import ListAllUsersComponent from './components/ListAllUsersComponent'
 import UserComponent from './components/UserComponent'
 import ArtistComponent from './components/ArtistComponent'
+import LoginComponent from './components/LogInComponent'
 
 function App() {
   
@@ -17,8 +18,10 @@ function App() {
     <>
       <BrowserRouter>
        <Routes>
+        {/* http://localhost:3000/login */}
+        <Route path='/login' element = { <LoginComponent/>}></Route>
         {/* http://localhost:3000/songs */}
-        <Route path='/songs' element = { <ListSongComponent />}></Route>
+        <Route path='/songs' element = { <ListSongComponent/>}></Route>
         {/* http://localhost:3000/add-song */}
         <Route path='/add-song' element = {<SongComponent/>}></Route>
         {/* http://localhost:3000/edit-song/1 */}
