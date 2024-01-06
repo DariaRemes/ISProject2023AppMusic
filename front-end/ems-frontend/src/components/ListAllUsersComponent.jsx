@@ -11,8 +11,11 @@ const ListAllUsersComponent = () => {
     const navigator = useNavigate();
  
     useEffect(() => {
-         getAllUsers();
-         getAllArtists();
+        getAllUsers();
+        
+    }, [])
+    useEffect(() =>{
+        getAllArtists();
     }, [])
     
      function getAllUsers(){
@@ -29,20 +32,29 @@ const ListAllUsersComponent = () => {
             console.error(error);
         })
     }
-     
-     function addNewUser(){
+    function addNewUser(){
          navigator('/add-user')
-     }
-
-     function addNewArtist(){
+    }
+    function addNewArtist(){
         navigator('/add-artist')
     }
+    function updateUser(id){
+        navigator(`/edit-user/${id}`)
+    }
  
-     function updateArtist(id){
+    function updateArtist(id){
          navigator(`/edit-artist/${id}`)
      }
+    function removeUser(id){
+        deleteUser(id).then((response) =>{
+            getAllUsers();
+        }
+          ).catch(error => {
+            console.error(error);
+          })
+    }  
  
-     function removeArtist(id){
+    function removeArtist(id){
          deleteArtist(id).then((response) =>{
              getAllArtists();
          }
@@ -98,15 +110,15 @@ const ListAllUsersComponent = () => {
             </thead>
             <tbody>
                 {
-                    users.map(user =>
-                        <tr key={user.id}>
-                            <td>{user.id}</td>
-                            <td>{user.username}</td>
-                            <td>{user.email}</td>
-                            <td>{user.password}</td> 
+                    artists.map(artist =>
+                        <tr key={artist.id}>
+                            <td>{artist.id}</td>
+                            <td>{artist.username}</td>
+                            <td>{artist.email}</td>
+                            <td>{artist.password}</td> 
                             <td>
-                                <button className='btn btn-info' onClick={()=>updateArtist(user.id)}>Update</button>
-                                <button className='btn btn-danger' onClick={()=>removeArtist(user.id)}>Delete</button>
+                                <button className='btn btn-info' onClick={()=>updateArtist(artist.id)}>Update</button>
+                                <button className='btn btn-danger' onClick={()=>removeArtist(artist.id)}>Delete</button>
                             </td>                          
                         </tr>)
                 }

@@ -26,6 +26,11 @@ public class ArtistController {
     @Autowired
     private PlaylistService playlistService;
 
+    @GetMapping
+    public ResponseEntity getArtists(){
+        return new ResponseEntity(artistService.getArtists(),HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity getArtist(@PathVariable Long id){
         return new ResponseEntity(artistService.getArtist(id), HttpStatus.OK);

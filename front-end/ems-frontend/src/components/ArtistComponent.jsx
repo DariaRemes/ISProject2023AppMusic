@@ -157,4 +157,4 @@ const ArtistComponent = () => {
 }
 
 
-export default UserComponent
+export default ArtistComponent
