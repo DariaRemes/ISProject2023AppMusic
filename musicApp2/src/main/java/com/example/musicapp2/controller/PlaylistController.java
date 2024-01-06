@@ -1,8 +1,10 @@
 package com.example.musicapp2.controller;
 
+import com.example.musicapp2.dto.CreatePlaylist;
 import com.example.musicapp2.model.Playlist;
 import com.example.musicapp2.model.Song;
 import com.example.musicapp2.service.PlaylistService;
+import com.example.musicapp2.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +19,8 @@ public class PlaylistController {
 
     @Autowired
     private PlaylistService playlistService;
-
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/playlists/{id}")
     public ResponseEntity<Playlist> getPlaylist(@PathVariable Long id){
@@ -28,9 +31,10 @@ public class PlaylistController {
         return new ResponseEntity<List<Playlist>>(playlistService.getPlaylists(), HttpStatus.OK);}
 
     @PostMapping("/playlists")
-    public ResponseEntity<Playlist> savePlaylist(@Valid @RequestBody Playlist playlist){
-        return new ResponseEntity<Playlist>(playlistService.savePlaylist(playlist),HttpStatus.CREATED);
-
+    public ResponseEntity savePlaylist(@RequestBody CreatePlaylist createPlaylist){
+        Playlist playlist = new Playlist(createPlaylist.getName());
+        playlistService.savePlaylist(playlist);
+        return new ResponseEntity(HttpStatus.OK);
     }
     @PutMapping("/playlists/{id}")
     public ResponseEntity<Playlist> addSongToPlaylist(@PathVariable Long id,@RequestParam Long song_id){
@@ -43,11 +47,12 @@ public class PlaylistController {
     }
 
     @PutMapping("/playlists/update/{id}")
-    public ResponseEntity<Playlist> updatePlaylist(@PathVariable Long id, @RequestParam String name){
+    public ResponseEntity updatePlaylist(@PathVariable Long id, @RequestBody CreatePlaylist createPlaylist){
         Playlist playlist= playlistService.getPlaylist(id);
         playlist.setId(id);
-        playlist.setName(name);
-        return new ResponseEntity<Playlist>(playlistService.updatePlaylist(playlist),HttpStatus.OK);
+        playlist.setName(createPlaylist.getName());
+        playlistService.updatePlaylist(playlist);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/playlists")

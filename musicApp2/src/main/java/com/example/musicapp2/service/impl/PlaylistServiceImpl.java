@@ -46,7 +46,10 @@ public class PlaylistServiceImpl implements PlaylistService {
         Song song = songRepository.findById(songId)
                 .orElseThrow(() -> new EntityNotFoundException("Song not found with id: " + songId));
         // Add the song to the playlist and the playlist to the song
-        playlist.getSongs().add(song);
+        if (!playlist.getSongs().contains(song)) {
+            playlist.getSongs().add(song);
+            // Save or update the playlist entity
+        }
         // Save the changes to the database
         return playlistRepository.save(playlist);
     }
@@ -55,12 +58,9 @@ public class PlaylistServiceImpl implements PlaylistService {
     public Playlist deleteSongFromPlaylist(Long playlistId, Long songId) {
         Playlist playlist = playlistRepository.findById(playlistId)
                 .orElseThrow(() -> new EntityNotFoundException("Playlist not found with id: " + playlistId));
-
         Song song = songRepository.findById(songId)
                 .orElseThrow(() -> new EntityNotFoundException("Song not found with id: " + songId));
-        // Add the song to the playlist and the playlist to the song
         playlist.getSongs().remove(song);
-        // Save the changes to the database
         return playlistRepository.save(playlist);
     }
 

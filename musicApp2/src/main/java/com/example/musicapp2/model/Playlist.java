@@ -1,5 +1,6 @@
 package com.example.musicapp2.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -16,16 +17,16 @@ import java.util.Set;
 @ToString
 public class Playlist {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotBlank(message = "Name is not valid")
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
-    @JoinTable(
-            name = "playlist_song",
-            joinColumns = @JoinColumn(name = "playlist_id"),
-            inverseJoinColumns = @JoinColumn(name = "song_id")
-    )
+    @OneToMany(cascade = CascadeType.ALL)
+    //@JsonManagedReference
     private Set<Song> songs = new HashSet<>();
+
+    public Playlist(String name) {
+        this.name = name;
+    }
 }

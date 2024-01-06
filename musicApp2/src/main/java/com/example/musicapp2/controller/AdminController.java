@@ -1,11 +1,11 @@
 package com.example.musicapp2.controller;
 
-import com.example.musicapp2.model.AbstractUser;
-import com.example.musicapp2.model.Admin;
-import com.example.musicapp2.model.Song;
-import com.example.musicapp2.service.AbstractUserService;
-import com.example.musicapp2.service.AdminService;
-import com.example.musicapp2.service.SongService;
+
+import com.example.musicapp2.dto.CreateAccount;
+import com.example.musicapp2.dto.FindByUserNameAndPassword;
+import com.example.musicapp2.dto.FindByUsername;
+import com.example.musicapp2.model.*;
+import com.example.musicapp2.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,27 +19,35 @@ import java.util.List;
 public class AdminController {
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ArtistService artistService;
 
     @Autowired
     private SongService songService;
 
-    @Autowired
-    private AbstractUserService abstractUserService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Admin> getAdmin(@PathVariable Long id){
-        return new ResponseEntity<Admin>((Admin) adminService.getAbstractUser(id), HttpStatus.OK);
+        return new ResponseEntity<Admin>(adminService.getAdmin(id), HttpStatus.OK);
     }
 
     @PostMapping("")
     public ResponseEntity<Admin> saveAdmin(@Valid @RequestBody Admin admin){
-         return new ResponseEntity<Admin>((Admin) adminService.saveAbstractUser(admin),HttpStatus.CREATED);
+         return new ResponseEntity<Admin>((Admin) adminService.saveAdmin(admin),HttpStatus.CREATED);
+    }
+    @PostMapping("/addAdmin")
+    public ResponseEntity addAdmin(@RequestBody CreateAccount createAccount){
+        Admin admin =  new Admin(createAccount.getUsername(), createAccount.getEmail(), createAccount.getPassword());
+        adminService.saveAdmin(admin);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteAdmin(@PathVariable Long id){
-         adminService.deleteAbstractUser(id);
-         return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
+    public ResponseEntity deleteAdmin(@PathVariable Long id){
+         adminService.deleteAdmin(id);
+         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
 
@@ -49,9 +57,51 @@ public class AdminController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<AbstractUser>> getUsers(){
-        return new ResponseEntity<List<AbstractUser>>(abstractUserService.getAbstractUsers(),HttpStatus.OK);
+    public ResponseEntity<List<User>> getUsers(){
+        return new ResponseEntity<List<User>>(userService.getUsers(),HttpStatus.OK);
     }
+    @GetMapping("/artists")
+    public ResponseEntity<List<Artist>> getArtists(){
+        return new ResponseEntity<List<Artist>>(artistService.getArtists(),HttpStatus.OK);
+    }
+
+//    @RequestMapping("/login")
+//    public String loginPage() {
+//        return "login";
+//    }
+//
+//    @PostMapping("/login")
+//    public String login(@RequestParam String username, @RequestParam String password, Model model) {
+//        if (adminService.findByUsernameAndPassword(username,password).isPresent()) {
+//            return "redirect:/admin/admin_dashboard";
+//        } else {
+//            model.addAttribute("error", "Invalid username or password");
+//            return "login";  // Stay on the login page with an error message
+//        }
+//    }
+//
+//    @RequestMapping("/admin_dashboard")
+//    public String dashboardPage(Model model) {
+//        //model.addAttribute("admin", new Admin());
+//        return "admin_dashboard";
+//    }
+//
+//    @RequestMapping("/register")
+//    public String registerPage(Model model) {
+//        model.addAttribute("admin", new Admin());
+//        return "register";
+//    }
+//
+//    @PostMapping("/register")
+//    public String registerAbstractUser(@ModelAttribute Admin admin) {
+//        adminService.saveAbstractUser(admin);
+//        return "redirect:/admin/login";
+//    }
+//
+//    @GetMapping("/logout")
+//    public String logoutPage() {
+//        return "redirect:/admin/login";
+//    }
 
 
 
