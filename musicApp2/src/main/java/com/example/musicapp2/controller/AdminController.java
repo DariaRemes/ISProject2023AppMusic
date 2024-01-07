@@ -50,26 +50,28 @@ public class AdminController {
          return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-
-    @GetMapping("/songs")
-    public ResponseEntity<List<Song>> getSongs(){
-        return new ResponseEntity<List<Song>>(songService.getSongs(),HttpStatus.OK);
+    @GetMapping()
+    public ResponseEntity findByUsernameAndPassword(@RequestBody FindByUserNameAndPassword findBy){
+        Admin admin = adminService.findByUsernameAndPassword(findBy.getUsername(), findBy.getPassword());
+        if(admin != null){
+            return new ResponseEntity(admin,HttpStatus.OK);
+        }
+        else return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
-
-    @GetMapping("/users")
-    public ResponseEntity<List<User>> getUsers(){
-        return new ResponseEntity<List<User>>(userService.getUsers(),HttpStatus.OK);
-    }
-    @GetMapping("/artists")
-    public ResponseEntity<List<Artist>> getArtists(){
-        return new ResponseEntity<List<Artist>>(artistService.getArtists(),HttpStatus.OK);
-    }
-
-//    @RequestMapping("/login")
-//    public String loginPage() {
-//        return "login";
+//    @GetMapping("/songs")
+//    public ResponseEntity<List<Song>> getSongs(){
+//        return new ResponseEntity<List<Song>>(songService.getSongs(),HttpStatus.OK);
 //    }
-//
+
+//    @GetMapping("/users")
+//    public ResponseEntity<List<User>> getUsers(){
+//        return new ResponseEntity<List<User>>(userService.getUsers(),HttpStatus.OK);
+//    }
+//    @GetMapping("/artists")
+//    public ResponseEntity<List<Artist>> getArtists(){
+//        return new ResponseEntity<List<Artist>>(artistService.getArtists(),HttpStatus.OK);
+//    }
+
 //    @PostMapping("/login")
 //    public String login(@RequestParam String username, @RequestParam String password, Model model) {
 //        if (adminService.findByUsernameAndPassword(username,password).isPresent()) {
@@ -79,29 +81,7 @@ public class AdminController {
 //            return "login";  // Stay on the login page with an error message
 //        }
 //    }
-//
-//    @RequestMapping("/admin_dashboard")
-//    public String dashboardPage(Model model) {
-//        //model.addAttribute("admin", new Admin());
-//        return "admin_dashboard";
-//    }
-//
-//    @RequestMapping("/register")
-//    public String registerPage(Model model) {
-//        model.addAttribute("admin", new Admin());
-//        return "register";
-//    }
-//
-//    @PostMapping("/register")
-//    public String registerAbstractUser(@ModelAttribute Admin admin) {
-//        adminService.saveAbstractUser(admin);
-//        return "redirect:/admin/login";
-//    }
-//
-//    @GetMapping("/logout")
-//    public String logoutPage() {
-//        return "redirect:/admin/login";
-//    }
+
 
 
 

@@ -43,7 +43,7 @@ const ArtistComponent = () => {
             }else{
                 createArtist(artist).then((response) =>{
                     console.log(response.data);
-                    navigator('/artist')
+                    navigator('/user')
                   }).catch(error => {
                     console.error(error);
                   })

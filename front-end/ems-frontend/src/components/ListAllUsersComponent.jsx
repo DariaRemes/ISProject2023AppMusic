@@ -65,8 +65,8 @@ const ListAllUsersComponent = () => {
   return (
 <div className='container'>
     <h2 className='text-center'>Users</h2>
-    <div className="row"> 
-    <div className="col-md-6">
+    <div className='row'> 
+    <div className='col-md-6'>
         <button className='btn btn-primary mb-2' onClick={addNewUser}>Add User</button>
         
         <table className='table table-hover table-bordered'>
@@ -96,7 +96,7 @@ const ListAllUsersComponent = () => {
             </tbody>
         </table>
         </div>
-        <div className="col-md-6">
+        <div className='col-md-6'>
         <button className='btn btn-primary mb-2' onClick={addNewArtist}>Add Artist</button>
         <table className='table table-hover table-bordered'>
             <thead>

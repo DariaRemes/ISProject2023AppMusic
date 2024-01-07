@@ -41,10 +41,6 @@ public class ArtistController {
 
     }
 
-//    @PostMapping("")
-//    public ResponseEntity<Artist> saveArtist(@Valid @RequestBody Artist artist){
-//        return new ResponseEntity<Artist>(artistService.saveArtist(artist),HttpStatus.CREATED);
-//    }
     @PostMapping("")
     public ResponseEntity addArtist(@RequestBody CreateAccount createAccount){
         Artist artist =  new Artist(createAccount.getUsername(), createAccount.getEmail(), createAccount.getPassword());
@@ -62,11 +58,6 @@ public class ArtistController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Artist> updateArtist(@PathVariable Long id, @RequestBody Artist artist){
-//        artist.setId(id);
-//        return new ResponseEntity<Artist>((Artist) artistService.updateArtist(artist),HttpStatus.OK);
-//    }
     @PutMapping("/{id}")
     public ResponseEntity updateArtist(@PathVariable Long id, @RequestBody CreateAccount createAccount) {
        Artist artist = new Artist(createAccount.getUsername(), createAccount.getEmail(), createAccount.getPassword()) ;
@@ -81,25 +72,4 @@ public class ArtistController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-//    @GetMapping("/login")
-//    public String loginPage() {
-//        return "artist login";
-//    }
-//
-//    @GetMapping("/register")
-//    public String registerPage(Model model) {
-//        model.addAttribute("artist", new Artist());
-//        return "register";
-//    }
-//
-//    @PostMapping("/register")
-//    public String registerAbstractUser(@ModelAttribute Artist artist) {
-//        artistService.saveAbstractUser(artist);
-//        return "redirect:/artist/login";
-//    }
-//
-//    @GetMapping("/logout")
-//    public String logoutPage() {
-//        return "redirect:/artist/login";
-//    }
 }

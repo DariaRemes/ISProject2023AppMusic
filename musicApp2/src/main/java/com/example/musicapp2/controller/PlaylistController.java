@@ -13,40 +13,39 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
+@RequestMapping("/playlists")
 public class PlaylistController {
 
     @Autowired
     private PlaylistService playlistService;
-    @Autowired
-    private UserService userService;
 
-    @GetMapping("/playlists/{id}")
-    public ResponseEntity<Playlist> getPlaylist(@PathVariable Long id){
-        return new ResponseEntity<Playlist>(playlistService.getPlaylist(id), HttpStatus.OK);}
+    @GetMapping("/{id}")
+    public ResponseEntity getPlaylist(@PathVariable Long id){
+        return new ResponseEntity(playlistService.getPlaylist(id), HttpStatus.OK);}
 
-    @GetMapping("/playlists")
-    public ResponseEntity<List<Playlist>> getPlaylists(){
-        return new ResponseEntity<List<Playlist>>(playlistService.getPlaylists(), HttpStatus.OK);}
+    @GetMapping
+    public ResponseEntity getPlaylists(){
+        return new ResponseEntity(playlistService.getPlaylists(), HttpStatus.OK);}
 
-    @PostMapping("/playlists")
+    @PostMapping
     public ResponseEntity savePlaylist(@RequestBody CreatePlaylist createPlaylist){
         Playlist playlist = new Playlist(createPlaylist.getName());
         playlistService.savePlaylist(playlist);
         return new ResponseEntity(HttpStatus.OK);
     }
-    @PutMapping("/playlists/{id}")
-    public ResponseEntity<Playlist> addSongToPlaylist(@PathVariable Long id,@RequestParam Long song_id){
-        return new ResponseEntity<Playlist>(playlistService.addSongToPlaylist(id,song_id),HttpStatus.OK);
+    @PutMapping("/{id}/{song_id}")
+    public ResponseEntity addSongToPlaylist(@PathVariable Long id,@PathVariable Long song_id){
+        return new ResponseEntity(playlistService.addSongToPlaylist(id,song_id),HttpStatus.OK);
     }
 
-    @DeleteMapping ("/playlists/{id}")
-    public ResponseEntity<Playlist> deleteSongFromPlaylist(@PathVariable Long id,@RequestParam Long song_id){
-        return new ResponseEntity<Playlist>(playlistService.deleteSongFromPlaylist(id,song_id),HttpStatus.NO_CONTENT);
+    @PutMapping ("/delete/{id}/{song_id}")
+    public ResponseEntity deleteSongFromPlaylist(@PathVariable Long id,@PathVariable Long song_id){
+        return new ResponseEntity(playlistService.deleteSongFromPlaylist(id,song_id),HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/playlists/update/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity updatePlaylist(@PathVariable Long id, @RequestBody CreatePlaylist createPlaylist){
         Playlist playlist= playlistService.getPlaylist(id);
         playlist.setId(id);
@@ -55,17 +54,14 @@ public class PlaylistController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @DeleteMapping("/playlists")
-    public ResponseEntity<HttpStatus> deletePlaylist(@RequestParam Long id){
-        if (playlistService.getPlaylist(id)!=null){
-            // Delete the playlist by ID
-            playlistService.deletePlaylist(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            // If the song doesn't exist, return 404 Not Found
-            System.out.println("id not found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    @DeleteMapping("/{id}")
+    public ResponseEntity deletePlaylist(@PathVariable Long id){
+        Playlist playlist = playlistService.getPlaylist(id);
+        playlist.getSongs().clear();
+        System.out.println(playlist.getSongs());
+        playlistService.updatePlaylist(playlist);
+        playlistService.deletePlaylist(id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
 

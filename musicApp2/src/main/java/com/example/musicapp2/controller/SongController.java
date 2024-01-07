@@ -1,6 +1,7 @@
 package com.example.musicapp2.controller;
 
 import com.example.musicapp2.dto.AdaugareCantec;
+import com.example.musicapp2.dto.FindSong;
 import com.example.musicapp2.dto.UpdateSong;
 import com.example.musicapp2.model.Artist;
 import com.example.musicapp2.model.Playlist;
@@ -81,17 +82,17 @@ public class SongController {
     }
 
     @GetMapping("/filterByTitle")
-    public ResponseEntity<List<Song>> getSongsByTitle(@RequestParam String title){
-        return new ResponseEntity<List<Song>>(songService.getSongsByTitle(title),HttpStatus.OK);
+    public ResponseEntity getSongsByTitle(@RequestParam String title){
+        return new ResponseEntity(songService.getSongsByTitle(title),HttpStatus.OK);
     }
 
     @GetMapping("/filterByGenre")
-    public ResponseEntity<List<Song>> getSongsByGenre(@RequestParam String genre){
-        return new ResponseEntity<List<Song>>(songService.getSongsByGenre(genre),HttpStatus.OK);
+    public ResponseEntity getSongsByGenre(@RequestParam String genre){
+        return new ResponseEntity(songService.getSongsByGenre(genre),HttpStatus.OK);
     }
     @GetMapping("/filterByKeyword")
     public ResponseEntity<List<Song>> getSongsByKeyword(@RequestParam String keyword){
-        return new ResponseEntity<List<Song>>(songService.getSongsByKeyword(keyword),HttpStatus.OK);
+        return new ResponseEntity(songService.getSongsByKeyword(keyword),HttpStatus.OK);
     }
 
     @GetMapping("/filterByArtist")

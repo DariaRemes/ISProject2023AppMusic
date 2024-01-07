@@ -37,7 +37,12 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
-    public Artist getByUsernameAndPassword(String username, String password) {
+    public Artist findByUsername(String username) {
+        return artistRepository.findByUsername(username);
+    }
+
+    @Override
+    public Artist findByUsernameAndPassword(String username, String password) {
         return artistRepository.findByUsernameAndPassword(username,password);
     }
 

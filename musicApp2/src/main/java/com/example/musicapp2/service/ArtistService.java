@@ -10,7 +10,8 @@ public interface ArtistService{
     List<Artist> getArtists();
     Artist getArtist(Long id);
     Artist getByUserName(String username);
-    Artist getByUsernameAndPassword(String username, String password);
+    Artist findByUsername(String username);
+    Artist findByUsernameAndPassword(String username, String password);
     Artist saveArtist(Artist artist);
     Artist updateArtist(Artist artist);
     void deleteArtist(Long id);

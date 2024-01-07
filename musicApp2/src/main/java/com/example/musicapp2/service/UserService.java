@@ -1,5 +1,6 @@
 package com.example.musicapp2.service;
 
+import com.example.musicapp2.model.Playlist;
 import com.example.musicapp2.model.User;
 
 import java.util.List;
@@ -12,5 +13,6 @@ public interface UserService{
     User saveUser(User user);
     User updateUser(User user);
     void deleteUser(Long id);
+
 
 }

@@ -51,8 +51,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
-
     @Override
     public User updateUser(User user) {
         return userRepository.save(user);
@@ -62,4 +60,5 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id) {
           userRepository.deleteById(id);
     }
+
 }

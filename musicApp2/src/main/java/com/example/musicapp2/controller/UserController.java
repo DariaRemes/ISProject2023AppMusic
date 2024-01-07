@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/user")
@@ -37,18 +40,14 @@ public class UserController {
 
     }
 
-//    @PostMapping("")
-//    public ResponseEntity<User> saveUser(@Valid @RequestBody User user){
-//        return new ResponseEntity<User>((User) userService.saveUser(user),HttpStatus.CREATED);
-//    }
     @PostMapping("")
     public ResponseEntity addUser(@RequestBody CreateAccount createAccount){
         User user =  new User(createAccount.getUsername(), createAccount.getEmail(), createAccount.getPassword());
         userService.saveUser(user);
         return new ResponseEntity(HttpStatus.OK);
     }
-    @PostMapping("/playlists")
-    public ResponseEntity savePlaylist(@RequestParam Long id, @RequestBody CreatePlaylist createPlaylist){
+    @PostMapping("/playlists/{id}")
+    public ResponseEntity savePlaylist(@PathVariable Long id, @RequestBody CreatePlaylist createPlaylist){
         User user = userService.getUser(id);
         Playlist playlist = new Playlist(createPlaylist.getName());
         playlistService.savePlaylist(playlist);
@@ -58,11 +57,18 @@ public class UserController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user){
-//        user.setId(id);
-//        return new ResponseEntity<User>(userService.updateUser(user),HttpStatus.OK);
-//    }
+    @GetMapping("/playlists/{id}")
+    public ResponseEntity getPlaylists(@PathVariable Long id){
+        User user = userService.getUser(id);
+        List<Playlist> playlistList = user.getPlaylists();
+        if(playlistList != null){
+            return new ResponseEntity(playlistList,HttpStatus.OK);
+        }else{
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity updateUser(@PathVariable Long id, @RequestBody CreateAccount createAccount){
         User user = new User(createAccount.getUsername(), createAccount.getEmail(), createAccount.getPassword());
@@ -73,29 +79,11 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteUser(@PathVariable Long id){
+        User user = userService.getUser(id);
+        user.getPlaylists().clear();
+        userService.updateUser(user);
         userService.deleteUser(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-//    @GetMapping("/login")
-//    public String loginPage() {
-//        return "user login";
-//    }
-//
-//    @GetMapping("/register")
-//    public String registerPage(Model model) {
-//        model.addAttribute("user", new User());
-//        return "register";
-//    }
-//
-//    @PostMapping("/register")
-//    public String registerAbstractUser(@ModelAttribute User user) {
-//        userService.saveAbstractUser(user);
-//        return "redirect:/user/login";
-//    }
-//
-//    @GetMapping("/logout")
-//    public String logoutPage() {
-//        return "redirect:/user/login";
-//    }
 }
