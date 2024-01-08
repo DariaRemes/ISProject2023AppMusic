@@ -17,6 +17,7 @@ import UserLibraryComponent from './components/UserLibraryComponent';
 import UserPlaylistSongsComponent from './components/UserPlaylistSongsComponent'
 import AddSongToPlaylistComponent from './components/AddSongToPlaylistComponent';
 import LoginComponent from './components/LogInComponent'
+import PlaylistComponent from './components/PlaylistComponent';
 
 function App() {
   
@@ -51,11 +52,12 @@ function App() {
         <Route path='/search' element = {<SearchPageComponent/>}></Route>
         {/* http://localhost:3000/user-library */}
         <Route path='/user-library' element = {<UserLibraryComponent/>}></Route>
-        
         {/* http://localhost:3000/add-song/1 */}
         <Route path='/add-song/:id' element = {<AddSongToPlaylistComponent/>}></Route>
         {/* http://localhost:3000/playlist-songs/1 */}
         <Route path='/playlist-songs/:id' element = {<UserPlaylistSongsComponent/>}></Route>
+        {/* http://localhost:3000/create-playlist */}
+        <Route path='/create-playlist' element = {<PlaylistComponent/>}></Route>
 
        </Routes>
       </BrowserRouter>

@@ -21,7 +21,7 @@ const UserLibraryComponent = () => {
   } 
 
   function addNewPlaylist(){
-    navigator('/add-playlist')
+    navigator(`/create-playlist`)
   }
   function getPlaylist(id){
     navigator(`/playlist-songs/${id}`)

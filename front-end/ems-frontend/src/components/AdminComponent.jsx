@@ -10,6 +10,9 @@ const AdminComponent = () => {
   function chooseUsers(){
     navigator('/user')
   }
+  function logOut(){
+    navigator('/login')
+  }
 
   return (
     <div className='container'>
@@ -22,6 +25,7 @@ const AdminComponent = () => {
         <div className='col-md-6'>
           <button className='btn btn-primary mb-2' onClick={chooseUsers}>Users</button>
         </div>
+        <button className='btn btn-primary mb-2' onClick={logOut}>Log out</button>
       </div>
 
 

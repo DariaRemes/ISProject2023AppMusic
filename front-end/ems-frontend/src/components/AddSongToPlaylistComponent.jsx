@@ -24,11 +24,11 @@ const AddSongToPlaylistComponent = () => {
     }
     
     function addSong(id,songId){
-        //navigator('/add-song')
         addSongToPlaylist(id,songId).then((response) => {
         }).catch(error => {
             console.error(error);
         })
+        navigator(`/playlist-songs/${id}`)
     }
 
     function updateSong(id){

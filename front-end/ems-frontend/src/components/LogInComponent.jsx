@@ -1,52 +1,63 @@
-import React, {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import React, { useState } from 'react';
+import { getAdmin, getUser, getArtist } from '../services/LogInService'; // Import the login service functions
+import { useNavigate } from 'react-router-dom';
 
 const LoginComponent = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-    const handleLogin = (e) => {
-        e.preventDefault();
-    
-    //Simulate authentification 
-    const validUser = checkUserInDatabase(username, password);
+  const handleLogin = async (e, userType) => {
+    e.preventDefault();
 
-    if(validUser){
-        console.log('${validUser.type} logged in successfully');
-        redirectToDashboard(validUser.type);
-    }else{
-        setError('Invalid username or password. Please try again.');
-    }
-};
+    try {
+      let loginServiceFunction;
 
-const checkUserInDatabase = (username, password) => {
-    const users = [
-        {username: 'user1', password : 'password1', type: 'User'},
-        {username: 'artist1', password: 'password1', type: 'Artist'},
-        {username: 'admin1', password: 'password1', type: 'Admin'}
-    ];
-
-    return users.find((validUser) => validUser.username === username && validUser.password === password);
-};
-
-const redirectToDashboard = (userType) => {
-    switch (userType) {
+      switch (userType) {
         case 'User':
-            navigate('/user-dashboard');
-            break;
+          loginServiceFunction = getUser;
+          break;
         case 'Artist':
-            navigate('/artist-dashboard');
-            break;
+          loginServiceFunction = getArtist;
+          break;
         case 'Admin':
-            navigate('/admin-dashboard');
-            break;
+          loginServiceFunction = getAdmin;
+          break;
         default:
-            break;
-    }
-};
+          console.error('Invalid user type');
+          return;
+      }
 
+      const response = await loginServiceFunction(username, password);
+
+      if (response.data.success) {
+        console.log(`${userType} logged in successfully`);
+        redirectToDashboard(userType);
+      } else {
+        setError('Invalid username or password. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      setError('An error occurred during login. Please try again.');
+    }
+  };
+
+  const redirectToDashboard = (userType) => {
+    switch (userType) {
+      case 'User':
+        navigate('/user-homepage');
+        break;
+      case 'Artist':
+        navigate('/artist-dashboard');
+        break;
+      case 'Admin':
+        navigate('/admin');
+        break;
+      default:
+        break;
+    }
+  };
 return (
     <div className="container">
       <br /> <br />

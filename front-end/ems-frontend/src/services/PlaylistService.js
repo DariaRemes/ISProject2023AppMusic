@@ -4,12 +4,13 @@ const REST_API_BASE_URL = 'http://localhost:8080/playlists';
 
 const REST_API_BASE_URL_USER = 'http://localhost:8080/user/playlists';
 
+const userId = 102;
 
 export const listPlaylists = () => axios.get(REST_API_BASE_URL);
 
 export const listUserPlaylists = () => axios.get(REST_API_BASE_URL_USER + '/' + 102);
 
-export const createPlaylist = () => axios.post(REST_API_BASE_URL_USER + '/' + 102);
+export const createPlaylist = (userId,playlist) => axios.post(REST_API_BASE_URL_USER + '/' + userId, playlist);
 
 // export const createPlaylist = (playlist) => axios.post(REST_API_BASE_URL,playlist);
 
