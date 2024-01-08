@@ -2,6 +2,7 @@ package com.example.musicapp2.controller;
 
 import com.example.musicapp2.dto.CreateAccount;
 import com.example.musicapp2.dto.CreatePlaylist;
+import com.example.musicapp2.dto.FindByUserNameAndPassword;
 import com.example.musicapp2.dto.FindByUsername;
 import com.example.musicapp2.model.*;
 import com.example.musicapp2.repository.ArtistRepository;
@@ -39,6 +40,15 @@ public class ArtistController {
     public ResponseEntity<Artist> findByUsername(@RequestBody FindByUsername findByUsername){
         return new ResponseEntity<>(artistService.getByUserName(findByUsername.getUsername()),HttpStatus.OK);
 
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity findByUsernameAndPassword(@RequestBody FindByUserNameAndPassword findBy){
+        Artist artist = artistService.findByUsernameAndPassword(findBy.getUsername(), findBy.getPassword());
+        if(artist != null){
+            return new ResponseEntity(artist,HttpStatus.OK);
+        }
+        else return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("")
