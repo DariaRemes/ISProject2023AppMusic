@@ -50,7 +50,7 @@ public class AdminController {
          return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping()
+    @GetMapping("/login")
     public ResponseEntity findByUsernameAndPassword(@RequestBody FindByUserNameAndPassword findBy){
         Admin admin = adminService.findByUsernameAndPassword(findBy.getUsername(), findBy.getPassword());
         if(admin != null){
