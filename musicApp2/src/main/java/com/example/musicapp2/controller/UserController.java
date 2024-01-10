@@ -50,7 +50,7 @@ public class UserController {
         else return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("")
+    @PostMapping("/addUser")
     public ResponseEntity addUser(@RequestBody CreateAccount createAccount){
         User user =  new User(createAccount.getUsername(), createAccount.getEmail(), createAccount.getPassword());
         userService.saveUser(user);

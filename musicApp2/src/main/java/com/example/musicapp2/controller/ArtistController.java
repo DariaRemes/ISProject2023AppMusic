@@ -51,7 +51,7 @@ public class ArtistController {
         else return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("")
+    @PostMapping("/addArtist")
     public ResponseEntity addArtist(@RequestBody CreateAccount createAccount){
         Artist artist =  new Artist(createAccount.getUsername(), createAccount.getEmail(), createAccount.getPassword());
         artistService.saveArtist(artist);
