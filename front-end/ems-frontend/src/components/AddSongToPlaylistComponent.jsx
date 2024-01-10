@@ -10,6 +10,7 @@ const AddSongToPlaylistComponent = () => {
    const navigator = useNavigate();
 
    const {id} = useParams();
+   const {playlistId} = useParams();
 
    useEffect(() => {
         getAllSongs();
@@ -23,34 +24,21 @@ const AddSongToPlaylistComponent = () => {
         })
     }
     
-    function addSong(id,songId){
-        addSongToPlaylist(id,songId).then((response) => {
+    function addSong(songId){
+        addSongToPlaylist(playlistId,songId).then((response) => {
+            navigator(`/playlist-songs/${id}/${playlistId}`)
         }).catch(error => {
             console.error(error);
         })
-        navigator(`/playlist-songs/${id}`)
-    }
-
-    function updateSong(id){
-        navigator(`/edit-song/${id}`)
-    }
-
-    function removeSong(id){
-        deleteSong(id).then((response) =>{
-            getAllSongs();
-        }).catch(error => {
-            console.error(error);
-          })
+        
     }
 
   return (
     <div className='container'>
         <h2 className='text-center'>Songs</h2>
-        {/* <button className='btn btn-primary mb-2' onClick={addNewSong}>Add Song</button> */}
         <table className='table table-striped table-bordered'>
             <thead>
                 <tr>
-                    {/* <th>Id</th> */}
                     <th>Title</th>
                     <th>Played Number</th>
                     <th>Genre</th>
@@ -62,14 +50,12 @@ const AddSongToPlaylistComponent = () => {
                 {
                     songs.map(song =>
                         <tr key={song.id}>
-                            {/* <td>{song.id}</td> */}
                             <td>{song.title}</td>
                             <td>{song.played_no}</td>
                             <td>{song.genre}</td> 
                             <td>{song.artist}</td> 
                             <td>
-                                <button className='btn btn-info' onClick={()=>addSong(id,song.id)}>Add</button>
-                                {/* <button className='btn btn-danger' onClick={()=>removeSong(song.id)}>Delete</button> */}
+                                <button className='btn btn-info' onClick={()=>addSong(song.id)}>Add</button>
                             </td>                          
                         </tr>)
                 }

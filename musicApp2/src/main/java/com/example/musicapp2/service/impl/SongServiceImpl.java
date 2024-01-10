@@ -26,7 +26,7 @@ public class SongServiceImpl implements SongService {
     private ArtistRepository artistRepository;
     @Override
     public List<Song> getSongs() {
-        Sort sort = Sort.by(Sort.Direction.ASC,"artist");
+        Sort sort = Sort.by(Sort.Order.desc("title"));
         return songRepository.findAll(sort);
     }
     @Override

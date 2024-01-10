@@ -41,7 +41,7 @@ public class UserController {
 
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity findByUsernameAndPassword(@RequestBody FindByUserNameAndPassword findBy){
         User user = userService.findByUsernameAndPassword(findBy.getUsername(), findBy.getPassword());
         if(user != null){
@@ -95,5 +95,7 @@ public class UserController {
         userService.deleteUser(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
+
 
 }

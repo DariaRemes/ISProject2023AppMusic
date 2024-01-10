@@ -6,12 +6,14 @@ const SongComponent = () => {
     const [title, setTitle] = useState('')
     const [genre, setGenre] = useState('')
     const [artist, setArtist] = useState('')
+    const [played_no, setPlayed_no] = useState('')
 
     const {id} = useParams();
     const [errors, setErrors] = useState({
         title: '',
         genre: '',
-        artist: ''
+        artist: '',
+        played_no: ''
     })
 
     const navigator = useNavigate();
@@ -33,9 +35,10 @@ const SongComponent = () => {
    
         if(validateForm()){
             const song = {title, genre, artist}
+            const songUpdate = {title, played_no, genre, artist}
             console.log(song)
             if(id){
-                updateSong(id,song).then((response) => {
+                updateSong(id,songUpdate).then((response) => {
                     console.log(response.data);
                 }).catch(error =>{
                     console.error(error);
@@ -75,6 +78,16 @@ const SongComponent = () => {
         }else {
             errorsCopy.artist = 'Artist is required!';
             valid = false;
+        }
+
+        if(id){
+            if(played_no.trim()){
+                errorsCopy.played_no = '';
+            }else {
+                errorsCopy.played_no = 'Played number is required!';
+                valid = false;
+            }
+
         }
 
         setErrors(errorsCopy);
@@ -144,6 +157,24 @@ const SongComponent = () => {
                           {errors.artist && <div className='invalid-feedback'>{errors.artist}</div>}
                           </label>
                       </div>
+
+                      {
+                        id && (
+                        <div className='form_group mb-2'>
+                          <label className='form-label'>Played_no
+                          <input 
+                             type='text'
+                             placeholder='Enter played number'
+                             name='played_no'
+                             value={played_no}
+                             className={`form-control ${errors.title ? 'is-invalid': ''}`}
+                             onChange={(e) => setPlayed_no(e.target.value)}
+                          >
+                          </input>
+                          {errors.title && <div className='invalid-feedback'>{errors.played_no}</div>}
+                          </label>
+                      </div>)
+                      }
                       <button className='btn btn-primary btn-succes' onClick={saveOrUpdateSong}>Submit</button>
                    </form>
                 </div>

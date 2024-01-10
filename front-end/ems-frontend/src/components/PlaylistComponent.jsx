@@ -6,6 +6,7 @@ const PlaylistComponent = () => {
     const [name, setName] = useState('')
 
     const {id} = useParams();
+    const {playlistId} = useParams();
     const [errors, setErrors] = useState({
         name: '',
     })
@@ -28,26 +29,21 @@ const PlaylistComponent = () => {
         if(validateForm()){
             const playlist = {name}
             console.log(playlist)
-            createPlaylist(id,name).then((response) =>{
-                        console.log(response.data);
-                        navigator('/user-library')
-                      }).catch(error => {
-                        console.error(error);
-                      })
-            // if(id){
-            //     updatePlaylist(id).then((response) => {
-            //         console.log(response.data);
-            //     }).catch(error =>{
-            //         console.error(error);
-            //     })
-            // }else{
-            //     createPlaylist(playlist).then((response) =>{
-            //         console.log(response.data);
-            //         navigator('/user-library')
-            //       }).catch(error => {
-            //         console.error(error);
-            //       })
-            // } 
+            console.log(playlistId)
+            if(playlistId){
+                updatePlaylist(playlistId,playlist).then((response) => {
+                    console.log(response.data);
+                }).catch(error =>{
+                    console.error(error);
+                })
+            }else{
+                createPlaylist(id,playlist).then((response) =>{
+                    console.log(response.data);
+                    //navigator('/user-library')
+                  }).catch(error => {
+                    console.error(error);
+                  })
+            } 
         }
     }
 
@@ -69,7 +65,7 @@ const PlaylistComponent = () => {
     }
 
     function pageTitle(){
-        if(id){
+        if(playlistId){
             return <h2 className='text-center'>Update playlist</h2>
         }else{
             return <h2 className='text-center'>Add playlist</h2>
@@ -87,7 +83,7 @@ const PlaylistComponent = () => {
                 <div className='card-body'>
                    <form>
                       <div className='form_group mb-2'>
-                          <label className='form-label'>Title
+                          <label className='form-label'>Name
                           <input 
                              type='text'
                              placeholder='Enter playlist name'

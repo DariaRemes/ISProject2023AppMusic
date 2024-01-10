@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
@@ -50,7 +50,7 @@ public class AdminController {
          return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity findByUsernameAndPassword(@RequestBody FindByUserNameAndPassword findBy){
         Admin admin = adminService.findByUsernameAndPassword(findBy.getUsername(), findBy.getPassword());
         if(admin != null){

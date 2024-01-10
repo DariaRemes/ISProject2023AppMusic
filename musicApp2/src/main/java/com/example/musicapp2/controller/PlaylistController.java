@@ -3,6 +3,7 @@ package com.example.musicapp2.controller;
 import com.example.musicapp2.dto.CreatePlaylist;
 import com.example.musicapp2.model.Playlist;
 import com.example.musicapp2.model.Song;
+import com.example.musicapp2.model.User;
 import com.example.musicapp2.service.PlaylistService;
 import com.example.musicapp2.service.UserService;
 import jakarta.validation.Valid;
@@ -20,6 +21,9 @@ public class PlaylistController {
 
     @Autowired
     private PlaylistService playlistService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/{id}")
     public ResponseEntity getPlaylist(@PathVariable Long id){
@@ -47,20 +51,21 @@ public class PlaylistController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity updatePlaylist(@PathVariable Long id, @RequestBody CreatePlaylist createPlaylist){
-        Playlist playlist= playlistService.getPlaylist(id);
+        Playlist playlist= new Playlist(createPlaylist.getName());
         playlist.setId(id);
-        playlist.setName(createPlaylist.getName());
         playlistService.updatePlaylist(playlist);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity deletePlaylist(@PathVariable Long id){
-        Playlist playlist = playlistService.getPlaylist(id);
+    @DeleteMapping("/{userId}/{playlistId}")
+    public ResponseEntity deletePlaylistUser(@PathVariable Long userId,@PathVariable Long playlistId){
+        Playlist playlist = playlistService.getPlaylist(playlistId);
         playlist.getSongs().clear();
-        System.out.println(playlist.getSongs());
         playlistService.updatePlaylist(playlist);
-        playlistService.deletePlaylist(id);
+        User user = userService.getUser(userId);
+        user.getPlaylists().remove(playlist);
+        userService.updateUser(user);
+        playlistService.deletePlaylist(playlistId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 

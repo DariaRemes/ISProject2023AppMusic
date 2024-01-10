@@ -8,48 +8,59 @@ const LoginComponent = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = async (e, userType) => {
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-
-    try {
-      let loginServiceFunction;
-
-      switch (userType) {
-        case 'User':
-          loginServiceFunction = getUser;
-          break;
-        case 'Artist':
-          loginServiceFunction = getArtist;
-          break;
-        case 'Admin':
-          loginServiceFunction = getAdmin;
-          break;
-        default:
-          console.error('Invalid user type');
+    const userTypes = ['User', 'Artist', 'Admin'];
+      for (const userType of userTypes) {
+       try {
+      
+        const loginServiceFunction = getLoginServiceFunction(userType);
+        const credentials = {
+          "username" : username,
+          "password" : password
+        }
+        const response = await loginServiceFunction(credentials);
+        if (response.status == 200) {
+          console.log(`${userType} logged in successfully`);
+          const id = response.data.id;
+          redirectToDashboard(userType,id);
           return;
-      }
+        }
 
-      const response = await loginServiceFunction(username, password);
-
-      if (response.data.success) {
-        console.log(`${userType} logged in successfully`);
-        redirectToDashboard(userType);
-      } else {
-        setError('Invalid username or password. Please try again.');
-      }
+        
     } catch (error) {
+      if (error.response && error.response.status === 404) {
+        console.log('User not found');
+        setError('Invalid username or password. Please try again.');
+      }else{
       console.error('Error during login:', error);
       setError('An error occurred during login. Please try again.');
+      }
+    }
+   } };
+
+  const getLoginServiceFunction = (userType) => {
+    switch (userType) {
+      case 'User':
+        return getUser;
+      case 'Artist':
+        return getArtist;
+      case 'Admin':
+        return getAdmin;
+      default:
+        console.error('Invalid user type');
+        return null;
     }
   };
 
-  const redirectToDashboard = (userType) => {
+  const redirectToDashboard = (userType,id) => {
     switch (userType) {
       case 'User':
-        navigate('/user-homepage');
+        navigate(`/user-homepage/${id}`);
         break;
       case 'Artist':
-        navigate('/artist-dashboard');
+        navigate(`/artist-homepage/${id}`);
         break;
       case 'Admin':
         navigate('/admin');

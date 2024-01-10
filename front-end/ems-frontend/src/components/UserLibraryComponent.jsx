@@ -1,19 +1,21 @@
 import React ,{useEffect, useState} from 'react'
 import Sidebar from './Sidebar'
 import { deletePlaylist, getPlaylist, listUserPlaylists } from '../services/PlaylistService'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const UserLibraryComponent = () => {
   const [playlists, setPlaylists] = useState([])
 
   const navigator = useNavigate();
 
+  const {id} = useParams();
+
   useEffect(() => {
     getPlaylists();
   }, [])
 
   function getPlaylists(){
-    listUserPlaylists().then((response) => {
+    listUserPlaylists(id).then((response) => {
         setPlaylists(response.data);
     }).catch(error => {
         console.error(error);
@@ -21,17 +23,17 @@ const UserLibraryComponent = () => {
   } 
 
   function addNewPlaylist(){
-    navigator(`/create-playlist`)
+    navigator(`/create-playlist/${id}`)
   }
-  function getPlaylist(id){
-    navigator(`/playlist-songs/${id}`)
+  function getPlaylist(playlistId){
+    navigator(`/playlist-songs/${id}/${playlistId}`)
   }
-  function updatePlaylist(id){
-    navigator(`/edit-playlist/${id}`)
+  function updatePlaylist(playlistId){
+    navigator(`/edit-playlist/${playlistId}`)
   }
 
-  function removePlaylist(id){
-    deletePlaylist(id).then((response) =>{
+  function removePlaylist(playlistId){
+    deletePlaylist(id,playlistId).then((response) =>{
         getPlaylists();
     }
       ).catch(error => {
@@ -41,18 +43,11 @@ const UserLibraryComponent = () => {
   return (
     <div className='d-flex'>
       <div className='col-md-2'>
-           <Sidebar/>
+           <Sidebar userId={id} />
       </div>
       <div className='column'>
         <button className='btn btn-primary mb-2' onClick={addNewPlaylist}>Create playlist</button>
         <table className='table table-striped table-bordered'>
-            {/* <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Actions</th>
-                </tr>
-            </thead> */}
             <tbody>
                 {
                     playlists.map(playlist =>

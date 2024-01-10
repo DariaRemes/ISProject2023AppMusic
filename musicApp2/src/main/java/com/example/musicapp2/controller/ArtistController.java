@@ -42,7 +42,7 @@ public class ArtistController {
 
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity findByUsernameAndPassword(@RequestBody FindByUserNameAndPassword findBy){
         Artist artist = artistService.findByUsernameAndPassword(findBy.getUsername(), findBy.getPassword());
         if(artist != null){
