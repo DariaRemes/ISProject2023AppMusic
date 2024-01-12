@@ -1,8 +1,29 @@
-import React from 'react'
+import React, {useState,useEffect} from 'react'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import { Link } from 'react-router-dom';
 
-function Sidebar({ userId }) {
+function Sidebar({ userId,userType }) {
+  const[homepage, setHomepage] = useState(``)
+  const[search, setSearch] = useState(``)
+  const[library, setLibrary] = useState(``)
+  //console.log(userType)
+
+  useEffect(() => {
+  if(userType == 'User')
+  {
+     setHomepage(`/user-homepage/${userId}`)
+     setSearch(`/user-search/${userId}`)
+     setLibrary(`/user-library/${userId}`)
+  }
+  else if(userType == 'Artist'){
+    setHomepage(`/artist-homepage/${userId}`)
+    setSearch(`/artist-search/${userId}`)
+    setLibrary(`/artist-library/${userId}`)
+  }
+}, [userId, userType]);
+  //console.log(homepage)
+ // console.log(library)
+
   return (
     <div className='sidebar d-flex flex-column justify-content-between bg-dark text-white p-4 vh-100'>
       <div>
@@ -13,19 +34,19 @@ function Sidebar({ userId }) {
         <hr className='text-secondary mt-2'/>
         <ul className='nav nav-pills flex-column p-0 m-0'>
             <li className='nav-item p-1'>
-                <Link to={`/user-homepage/${userId}`} className='nav-link text-white'>
+                <Link to={homepage} className='nav-link text-white'>
                     <i className='bi bi-house fs-5 me-2'></i>
                     <span className='fs-5'>Home</span>
                 </Link>
             </li>
             <li className='nav-item p-1'>
-                <a href='http://localhost:3000/search' className='nav-link text-white'>
+                <Link to= {search} className='nav-link text-white'>
                     <i className='bi bi-search-heart fs-5 me-2'></i>
                     <span className='fs-5'>Search</span>
-                </a>
+                </Link>
             </li>
             <li className='nav-item p-1'>
-                <Link to={`http://localhost:3000/user-library/${userId}`} className='nav-link text-white'>
+                <Link to={library} className='nav-link text-white'>
                     <i className='bi bi-collection fs-5 me-2'></i>
                     <span className='fs-5'>Your library</span>
                 </Link>

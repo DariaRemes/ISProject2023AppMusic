@@ -41,10 +41,6 @@ public class SongController {
     public ResponseEntity<List<Song>> getSongs(){
         return new ResponseEntity<List<Song>>(songService.getSongs(), HttpStatus.OK);}
 
-//    @PostMapping("")
-//    public ResponseEntity<Song> saveSong(@Valid @RequestBody Song song){
-//        return new ResponseEntity<Song>(songService.saveSong(song),HttpStatus.CREATED);
-//    }
     @PostMapping("")
     public ResponseEntity addSong(@RequestBody AdaugareCantec adaugareCantec){
         Song song = new Song(adaugareCantec.getTitle(),adaugareCantec.getGenre(),adaugareCantec.getArtist());
@@ -57,12 +53,19 @@ public class SongController {
         return new ResponseEntity(HttpStatus.OK);
     }
     @PutMapping("/{id}")
-    public ResponseEntity updateSong(@PathVariable Long id, @RequestBody UpdateSong updateSong){
-        Song song = new Song(updateSong.getTitle(),updateSong.getPlayed_no(), updateSong.getGenre(), updateSong.getArtist());
+    public ResponseEntity updateSong(@PathVariable Long id, @RequestBody UpdateSong updateSong) {
+        Song song = new Song(updateSong.getTitle(), updateSong.getPlayed_no(), updateSong.getGenre(), updateSong.getArtist());
         song.setId(id);
         songService.updateSong(song);
         return new ResponseEntity(HttpStatus.OK);
-}
+    }
+    @PutMapping("/play/{id}")
+    public ResponseEntity playSong(@PathVariable Long id){
+        Song song = songService.getSong(id);
+        song.setPlayed_no(song.getPlayed_no() + 1);
+        songService.updateSong(song);
+        return new ResponseEntity(HttpStatus.OK);
+    }
     //localhost:8080/songs?id=3
     @DeleteMapping("/{id}")
     public ResponseEntity deleteSong(@PathVariable Long id){

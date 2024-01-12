@@ -16,6 +16,7 @@ import AddSongToPlaylistComponent from './components/AddSongToPlaylistComponent'
 import LoginComponent from './components/LogInComponent'
 import PlaylistComponent from './components/PlaylistComponent';
 import ArtistHomepageComponent from './components/ArtistHomepageComponent';
+import ArtistLibraryComponent from './components/ArtistLibraryComponent';
 
 function App() {
   
@@ -46,21 +47,25 @@ function App() {
         <Route path='/edit-artist/:id' element = {<ArtistComponent/>}></Route>
         {/* http://localhost:3000/user-homepage/1 */}
         <Route path='/user-homepage/:id' element = {<UserHomepageComponent/>}></Route>
-        {/* http://localhost:3000/search */}
-        <Route path='/search' element = {<SearchPageComponent/>}></Route>
+        {/* http://localhost:3000/search/1 */}
+        <Route path='/user-search/:id' element = {<SearchPageComponent/>}></Route>
+        {/* http://localhost:3000/search/1 */}
+        <Route path='/artist-search/:id' element = {<SearchPageComponent/>}></Route>
         {/* http://localhost:3000/user-library/1 */}
         <Route path='/user-library/:id' element = {<UserLibraryComponent/>}></Route>
         {/* http://localhost:3000/add-song/1/1 */}
         <Route path='/add-song/:id/:playlistId' element = {<AddSongToPlaylistComponent/>}></Route>
         {/* http://localhost:3000/playlist-songs/1/1 */}
         <Route path='/playlist-songs/:id/:playlistId' element = {<UserPlaylistSongsComponent/>}></Route>
-        {/* http://localhost:3000/create-playlist/1 */}
-        <Route path='/create-playlist/:id' element = {<PlaylistComponent/>}></Route>
+        {/* http://localhost:3000/create-playlist/user/1 */}
+        <Route path='/create-playlist/:userType/:id' element = {<PlaylistComponent/>}></Route>
         {/* http://localhost:3000/edit-playlist/1 */}
         <Route path='/edit-playlist/:playlistId' element = {<PlaylistComponent/>}></Route>
 
         {/* http://localhost:3000/artist-homepage/1 */}
         <Route path='/artist-homepage/:id' element = {<ArtistHomepageComponent/>}></Route>
+        {/* http://localhost:3000/artist-library/1 */}
+        <Route path='/artist-library/:id' element = {<ArtistLibraryComponent/>}></Route>
 
        </Routes>
       </BrowserRouter>

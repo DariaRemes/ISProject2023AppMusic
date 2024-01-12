@@ -1,11 +1,14 @@
 import React, {useState,useEffect}from 'react'
 import Sidebar from './Sidebar'
 import { useParams } from 'react-router-dom'
-import { listSongs } from '../services/SongService'
-import PlayBarComponent from './PlaybarComponent'
+import { listSongs, playSong } from '../services/SongService'
+import PlaybarComponent from './PlaybarComponent'
 
 const UserHomepageComponent = () => {
   const [songs, setSongs] = useState([])
+
+  const [title, setTitle] = useState('')
+  const [artist, setArtist] = useState('')
 
 
   const {id} = useParams();
@@ -24,13 +27,20 @@ const UserHomepageComponent = () => {
         console.error(error);
     })
   }
+  
+  function play(songId,songTitle,songArtist){
+    setTitle(songTitle)
+    setArtist(songArtist)
+    playSong(songId)
+    
+  }
 
   
   return (
     <div className='container-fluid'>
     <div className='row'>
       <div className='col-md-2 p-0' >
-        <Sidebar userId={id} />
+        <Sidebar userId={id}  userType = 'User' />
       </div>
       <div className='col-md-10'>
         <div className='row'>
@@ -48,7 +58,7 @@ const UserHomepageComponent = () => {
                         <td>{song.played_no}</td>
                         <td>{song.genre}</td> 
                         <td>
-                            <button className='btn btn-info' >Play</button>
+                            <button className='btn btn-info' onClick={()=>play(song.id,song.title,song.artist)}>Play</button>
                         </td>                          
                     </tr>)
                   }
@@ -68,7 +78,7 @@ const UserHomepageComponent = () => {
         </div>
         <div className='row'>
           <div className='col-md-12 p-0'>
-            <PlayBarComponent />
+            <PlaybarComponent title = {title} artist = {artist}/>
           </div>
         </div>
       </div>

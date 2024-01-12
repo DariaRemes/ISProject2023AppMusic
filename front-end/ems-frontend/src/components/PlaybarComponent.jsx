@@ -1,15 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const PlayBarComponent = () => {
+const PlayBarComponent = (playedSong) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentSong, setCurrentSong] = useState({
-    title: 'Song Title',
-    artist: 'Artist Name',
+  const {title,artist} = playedSong;
+
+    const [currentSong, setCurrentSong] = useState({
+    title: title,
+    artist: artist
   });
+
+  useEffect(() => {
+    // Update current song when title or artist changes
+    setCurrentSong({
+      title: title,
+      artist: artist
+    });
+  }, [title, artist]);
 
   const handlePlayPause = () => {
     setIsPlaying(!isPlaying);
   };
+
 
   return (
     <div className='playbar bg-dark'>
@@ -17,8 +28,8 @@ const PlayBarComponent = () => {
      <div className='row'>
      <div className='col-md-2'>
       <div className='song-info text-left'>
-        <p className='title'>{currentSong.title}</p>
-        <p className='artist'>{currentSong.artist}</p>
+        <p style={{ fontSize: '20px' }} className='title'>{playedSong.title} </p>
+        <p className='artist'>{playedSong.artist}</p>
       </div>
       </div>
       <div className='col-md-4  d-flex justify-content-end'>

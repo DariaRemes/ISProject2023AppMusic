@@ -28,7 +28,6 @@ public class User{
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL)
-    //@JsonManagedReference
     private List<Playlist> playlists;
 
     public User(String username, String email, String password) {

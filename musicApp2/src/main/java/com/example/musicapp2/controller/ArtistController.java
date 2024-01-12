@@ -17,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/artist")
@@ -57,8 +59,8 @@ public class ArtistController {
         artistService.saveArtist(artist);
         return new ResponseEntity(HttpStatus.OK);
     }
-    @PostMapping("/playlists")
-    public ResponseEntity savePlaylist(@RequestParam Long id, @RequestBody CreatePlaylist createPlaylist){
+    @PostMapping("/playlists/{id}")
+    public ResponseEntity savePlaylist(@PathVariable Long id, @RequestBody CreatePlaylist createPlaylist){
         Artist artist = artistService.getArtist(id);
         Playlist playlist = new Playlist(createPlaylist.getName());
         playlistService.savePlaylist(playlist);
@@ -66,6 +68,28 @@ public class ArtistController {
         artist.getPlaylists().add(playlist);
         artistService.saveArtist(artist);
         return new ResponseEntity(HttpStatus.OK);
+    }
+    @GetMapping("/playlists/{id}")
+    public ResponseEntity getPlaylists(@PathVariable Long id){
+        Artist artist = artistService.getArtist(id);
+        List<Playlist> playlistList = artist.getPlaylists();
+        if(playlistList != null){
+            return new ResponseEntity(playlistList,HttpStatus.OK);
+        }else{
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping("/songs/{id}")
+    public ResponseEntity getSongs(@PathVariable Long id){
+        Artist artist = artistService.getArtist(id);
+        List<Song> songList = artist.getSongs();
+        if(songList != null){
+            return new ResponseEntity(songList,HttpStatus.OK);
+        }else{
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+
     }
 
     @PutMapping("/{id}")

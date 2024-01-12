@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react'
-import { createPlaylist, getPlaylist, updatePlaylist } from '../services/PlaylistService'
+import { createPlaylist,createPlaylistArtist, getPlaylist, updatePlaylist } from '../services/PlaylistService'
 import { useNavigate, useParams } from 'react-router-dom'
 const PlaylistComponent = () => {
 
     const [name, setName] = useState('')
 
     const {id} = useParams();
+    const {userType} = useParams();
     const {playlistId} = useParams();
     const [errors, setErrors] = useState({
         name: '',
@@ -28,8 +29,8 @@ const PlaylistComponent = () => {
    
         if(validateForm()){
             const playlist = {name}
-            console.log(playlist)
-            console.log(playlistId)
+            //console.log(playlist)
+            //console.log(playlistId)
             if(playlistId){
                 updatePlaylist(playlistId,playlist).then((response) => {
                     console.log(response.data);
@@ -37,12 +38,19 @@ const PlaylistComponent = () => {
                     console.error(error);
                 })
             }else{
-                createPlaylist(id,playlist).then((response) =>{
+                if(userType == 'user'){
+                 createPlaylist(id,playlist).then((response) =>{
                     console.log(response.data);
-                    //navigator('/user-library')
                   }).catch(error => {
                     console.error(error);
                   })
+                }else{
+                    createPlaylistArtist(id,playlist).then((response) =>{
+                        console.log(response.data);
+                      }).catch(error => {
+                        console.error(error);
+                      }) 
+                }
             } 
         }
     }
@@ -71,7 +79,7 @@ const PlaylistComponent = () => {
             return <h2 className='text-center'>Add playlist</h2>
         }
     }
-
+    console.log(name)
   return (
     <div className='container'>
         <br/>  <br/>

@@ -1,11 +1,14 @@
 import React ,{useEffect, useState} from 'react'
 import Sidebar from './Sidebar'
-import { deletePlaylist, getPlaylist, listUserPlaylists } from '../services/PlaylistService'
+import { deletePlaylist, listArtistPlaylists } from '../services/PlaylistService'
+import { listSongs } from '../services/ArtistService'
 import { useNavigate, useParams } from 'react-router-dom'
 import PlaybarComponent from './PlaybarComponent'
+import { playSong } from '../services/SongService'
 
-const UserLibraryComponent = () => {
+const ArtistLibraryComponent = () => {
   const [playlists, setPlaylists] = useState([])
+  const [songs, setSongs] = useState([])
 
   const [title, setTitle] = useState('')
   const [artist, setArtist] = useState('')
@@ -16,18 +19,43 @@ const UserLibraryComponent = () => {
 
   useEffect(() => {
     getPlaylists();
+    getSongs();
   }, [])
 
   function getPlaylists(){
-    listUserPlaylists(id).then((response) => {
+    listArtistPlaylists(id).then((response) => {
         setPlaylists(response.data);
     }).catch(error => {
         console.error(error);
     })
   } 
 
+  function getSongs(){
+    listSongs(id).then((response) => {
+        setSongs(response.data);
+    }).catch(error => {
+        console.error(error);
+    })
+  } 
+
+  
+  function addNewSong(){
+    navigator('/add-song')
+  }
+  function updateSong(id){
+    navigator(`/edit-song/${id}`)
+ }
+ function removeSong(id){
+  deleteSong(id).then((response) =>{
+      getAllSongs();
+  }
+    ).catch(error => {
+      console.error(error);
+    })
+  }
+
   function addNewPlaylist(){
-    navigator(`/create-playlist/user/${id}`)
+    navigator(`/create-playlist/artist/${id}`)
   }
   function getPlaylist(playlistId){
     navigator(`/playlist-songs/${id}/${playlistId}`)
@@ -44,15 +72,26 @@ const UserLibraryComponent = () => {
         console.error(error);
       })
   } 
+
+  function play(songId,songTitle,songArtist){
+    setTitle(songTitle)
+    setArtist(songArtist)
+    playSong(songId)
+  }
+
   return (
     <div className='container-fluid'>
+       
     <div className='row'>
       <div className='col-md-2 p-0' >
-           <Sidebar userId={id} userType='User' />
+           <Sidebar userId={id} userType='Artist' />
       </div>
       <div className='col-md-10'>
+      <h2> Your library </h2>
         <div className='row'>
           <div className='col-md-6'>
+          <div className='card'>
+        <div className='card-body'>
         <button className='btn btn-primary mb-2' onClick={addNewPlaylist}>Create playlist</button>
         <table className='table table-striped table-bordered'>
             <tbody>
@@ -73,13 +112,43 @@ const UserLibraryComponent = () => {
         </div>
         </div>
         </div>
+        <div className='col-md-6'>
+        <div className='card'>
+        <div className='card-body'>
+        <button className='btn btn-primary mb-2' onClick={addNewSong}>Add song</button>
+        <table className='table table-striped table-bordered'>
+            <tbody>
+                {
+                    songs.map(song =>
+                        <tr key={song.id}>
+                            <td>{song.title}</td>
+                            <td>{song.genre}</td>
+                            <td>{song.played_no}</td>
+                           <td>
+                              <button className='btn btn-info' onClick={() => play(song.id,song.title, song.artist)} >Play</button>
+                              <button className='btn btn-info' onClick={()=>updateSong(song.id)}>Update</button>
+                              <button className='btn btn-danger' onClick={()=>removeSong(song.id)}>Delete</button>
+                            </td>                           
+                        </tr>)
+                }
+            </tbody>
+        </table>
         </div>
+        </div>
+        </div>
+        </div>
+        
+        
+        <div className='row'>
         <div className='col-md-12 p-0'>
             <PlaybarComponent title = {title} artist = {artist}/>
           </div>
+          </div>
+          </div>
+    </div>
     </div>
     
   )
 }
 
-export default UserLibraryComponent
+export default ArtistLibraryComponent

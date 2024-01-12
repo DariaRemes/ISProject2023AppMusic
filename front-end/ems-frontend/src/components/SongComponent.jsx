@@ -24,6 +24,7 @@ const SongComponent = () => {
            setTitle(response.data.title);
            setGenre(response.data.genre);
            setArtist(response.data.artist);
+           setPlayed_no(response.data.played_no);
         }).catch(error =>{
             console.error(error);
         })

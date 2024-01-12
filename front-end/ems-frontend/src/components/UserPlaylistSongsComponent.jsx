@@ -1,12 +1,17 @@
 import React ,{useEffect, useState} from 'react'
-import {getPlaylist,removeSongFromPlaylist,listUserPlaylists} from '../services/PlaylistService'
+import {getPlaylist,removeSongFromPlaylist} from '../services/PlaylistService'
 import Sidebar from './Sidebar'
+import PlaybarComponent from './PlaybarComponent'
+import { playSong } from '../services/SongService'
 
 import { useNavigate, useParams } from 'react-router-dom'
 
 const UserPlaylistSongsComponent = () => {
   const [name, setName] = useState('')
   const [songs, setSongs] = useState([])
+
+  const [title, setTitle] = useState('')
+  const [artist, setArtist] = useState('')
 
   const {id} = useParams();
   const {playlistId} = useParams();
@@ -59,17 +64,23 @@ const UserPlaylistSongsComponent = () => {
   
     setSongs(sortedSongs);
   };
+
+  function play(songId,songTitle,songArtist){
+    setTitle(songTitle)
+    setArtist(songArtist)
+    playSong(songId)
+  }
   return (
     <div className='d-flex'>
       <div className='col-md-2'>
-           <Sidebar userId={id}/>
+           <Sidebar userId={id} userType= 'User'/>
       </div>
       <div className='column'>
         <h2>{name}</h2>
         <button className='btn btn-primary mb-2'onClick={addSong}>Add song</button>
         <div>
         <button className = 'bi bi-filter-left' onClick={handleSortButtonClick} ></button>
-        <label>Sort by:</label>
+        <label>Sort by :  </label>
         <select onChange={(e) => handleSort(e.target.value)}>
           <option value='title'>Title</option>
           <option value='artist'>Artist</option>
@@ -86,15 +97,20 @@ const UserPlaylistSongsComponent = () => {
                             <td>{song.artist}</td>
                             <td>{song.genre}</td>
                            <td>
-                              <button className='btn btn-info' >Play</button>
-                              <button className='btn btn-danger'onClick={() => removeSong(song.id)} >Delete</button>
+                              <button className='btn btn-info' onClick={() => play(song.id,song.title, song.artist)} >Play</button>
+                              <button className='btn btn-danger' onClick={() => removeSong(song.id)} >Delete</button>
                             </td>                           
                         </tr>)
                 }
             </tbody> 
              
         </table>
+        <div className='row'>
         </div>
+        <div className='col-md-12 p-0'>
+            <PlaybarComponent title = {title} artist = {artist}/>
+          </div>
+          </div>
     </div>
   )
 }
