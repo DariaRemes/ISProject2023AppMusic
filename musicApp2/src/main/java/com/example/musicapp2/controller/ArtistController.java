@@ -1,9 +1,6 @@
 package com.example.musicapp2.controller;
 
-import com.example.musicapp2.dto.CreateAccount;
-import com.example.musicapp2.dto.CreatePlaylist;
-import com.example.musicapp2.dto.FindByUserNameAndPassword;
-import com.example.musicapp2.dto.FindByUsername;
+import com.example.musicapp2.dto.*;
 import com.example.musicapp2.model.*;
 import com.example.musicapp2.repository.ArtistRepository;
 import com.example.musicapp2.service.ArtistService;
@@ -49,6 +46,14 @@ public class ArtistController {
             return new ResponseEntity(artist,HttpStatus.OK);
         }
         else return new ResponseEntity(HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/checkArtist")
+    public ResponseEntity checkArtist(@RequestBody CheckUserInDatabase checkArtistInDatabase) {
+        Artist artist = artistService.checkArtist(checkArtistInDatabase.getUsername(), checkArtistInDatabase.getEmail(), checkArtistInDatabase.getPassword());
+        if (artist != null) {
+            return new ResponseEntity(artist, HttpStatus.OK);
+        } else return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/addArtist")

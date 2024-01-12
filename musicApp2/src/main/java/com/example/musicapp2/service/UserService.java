@@ -10,6 +10,7 @@ public interface UserService{
     User getUser(Long id);
     User getByUserName(String username);
     User findByUsernameAndPassword(String username, String password);
+    User checkUser(String username, String email, String password);
     User saveUser(User user);
     User updateUser(User user);
     void deleteUser(Long id);

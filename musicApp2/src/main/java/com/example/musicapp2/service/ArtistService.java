@@ -12,6 +12,7 @@ public interface ArtistService{
     Artist getByUserName(String username);
     Artist findByUsername(String username);
     Artist findByUsernameAndPassword(String username, String password);
+    Artist checkArtist(String username, String email, String password);
     Artist saveArtist(Artist artist);
     Artist updateArtist(Artist artist);
     void deleteArtist(Long id);

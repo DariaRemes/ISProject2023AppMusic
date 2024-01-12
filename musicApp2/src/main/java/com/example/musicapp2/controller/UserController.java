@@ -1,9 +1,6 @@
 package com.example.musicapp2.controller;
 
-import com.example.musicapp2.dto.CreateAccount;
-import com.example.musicapp2.dto.CreatePlaylist;
-import com.example.musicapp2.dto.FindByUserNameAndPassword;
-import com.example.musicapp2.dto.FindByUsername;
+import com.example.musicapp2.dto.*;
 import com.example.musicapp2.model.*;
 import com.example.musicapp2.service.PlaylistService;
 import com.example.musicapp2.service.UserService;
@@ -56,6 +53,17 @@ public class UserController {
         userService.saveUser(user);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @PostMapping("/checkUser")
+    public ResponseEntity checkUser(@RequestBody CheckUserInDatabase checkUserInDatabase){
+        User user = userService.checkUser(checkUserInDatabase.getUsername(), checkUserInDatabase.getEmail(), checkUserInDatabase.getPassword());
+        System.out.println(user);
+        if(user != null){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        else return new ResponseEntity(user, HttpStatus.OK);
+    }
+
     @PostMapping("/playlists/{id}")
     public ResponseEntity savePlaylist(@PathVariable Long id, @RequestBody CreatePlaylist createPlaylist){
         User user = userService.getUser(id);
