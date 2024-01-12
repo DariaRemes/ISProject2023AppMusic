@@ -17,6 +17,7 @@ import LoginComponent from './components/LogInComponent'
 import PlaylistComponent from './components/PlaylistComponent';
 import ArtistHomepageComponent from './components/ArtistHomepageComponent';
 import ArtistLibraryComponent from './components/ArtistLibraryComponent';
+import SignUpComponent from './components/SignUpComponent';
 
 function App() {
   
@@ -27,6 +28,8 @@ function App() {
        <Routes>
         {/* http://localhost:3000/login */}
         <Route path='/login' element = { <LoginComponent/>}></Route>
+        {/* http://localhost:3000/signup */}
+        <Route path='/signup' element = { <SignUpComponent/>}></Route>
         {/* http://localhost:3000/songs */}
         <Route path='/songs' element = { <ListSongComponent/>}></Route>
         {/* http://localhost:3000/add-song */}
