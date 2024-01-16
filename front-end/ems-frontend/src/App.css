@@ -75,3 +75,16 @@
     text-align: center;
     color: white;
 }
+
+.bottom_button{
+    position: fixed;
+    left:2%;
+    bottom: 4%;
+    width: 15%; 
+    height: 5%;
+    background-color: #202020;
+    text-align: center;
+    color: white;
+    border: none;
+    border-radius: 10px; 
+}

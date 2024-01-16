@@ -37,6 +37,7 @@ const UserComponent = () => {
             if(id){
                 updateUser(id,user).then((response) => {
                     console.log(response.data);
+                    navigator('/user')
                 }).catch(error =>{
                     console.error(error);
                 })

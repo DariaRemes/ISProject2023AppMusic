@@ -84,23 +84,23 @@ public class SongController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/filterByTitle")
-    public ResponseEntity getSongsByTitle(@RequestParam String title){
-        return new ResponseEntity(songService.getSongsByTitle(title),HttpStatus.OK);
+    @PostMapping("/filterByTitle")
+    public ResponseEntity getSongsByTitle(@RequestBody FindSong findSong){
+        return new ResponseEntity(songService.getSongsByTitle(findSong.getKeyword()),HttpStatus.OK);
     }
 
-    @GetMapping("/filterByGenre")
-    public ResponseEntity getSongsByGenre(@RequestParam String genre){
-        return new ResponseEntity(songService.getSongsByGenre(genre),HttpStatus.OK);
+    @PostMapping("/filterByGenre")
+    public ResponseEntity getSongsByGenre(@RequestBody FindSong findSong){
+        return new ResponseEntity(songService.getSongsByGenre(findSong.getKeyword()),HttpStatus.OK);
     }
-    @GetMapping("/filterByKeyword")
-    public ResponseEntity<List<Song>> getSongsByKeyword(@RequestParam String keyword){
-        return new ResponseEntity(songService.getSongsByKeyword(keyword),HttpStatus.OK);
+    @PostMapping("/filterByKeyword")
+    public ResponseEntity getSongsByKeyword(@RequestBody FindSong findSong){
+        return new ResponseEntity(songService.getSongsByKeyword(findSong.getKeyword()),HttpStatus.OK);
     }
 
     @GetMapping("/filterByArtist")
-    public ResponseEntity<List<Song>> getSongsByArtist(@RequestParam String artist){
-        return new ResponseEntity<List<Song>>(songService.getSongsByArtist(artist),HttpStatus.OK);
+    public ResponseEntity getSongsByArtist(@RequestBody FindSong findSong){
+        return new ResponseEntity(songService.getSongsByArtist(findSong.getKeyword()),HttpStatus.OK);
     }
 
 }

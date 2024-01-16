@@ -1,10 +1,10 @@
 import React ,{useEffect, useState} from 'react'
 import Sidebar from './Sidebar'
 import { deletePlaylist, listArtistPlaylists } from '../services/PlaylistService'
-import { listSongs } from '../services/ArtistService'
+import { listSongs} from '../services/ArtistService'
 import { useNavigate, useParams } from 'react-router-dom'
 import PlaybarComponent from './PlaybarComponent'
-import { playSong } from '../services/SongService'
+import { playSong,deleteSong } from '../services/SongService'
 
 const ArtistLibraryComponent = () => {
   const [playlists, setPlaylists] = useState([])
@@ -40,14 +40,14 @@ const ArtistLibraryComponent = () => {
 
   
   function addNewSong(){
-    navigator('/add-song')
+      navigator(`/add-song/${id}`)
   }
-  function updateSong(id){
-    navigator(`/edit-song/${id}`)
+  function updateSong(songId){
+      navigator(`/edit-song/${songId}/${id}`)
  }
  function removeSong(id){
   deleteSong(id).then((response) =>{
-      getAllSongs();
+      getSongs();
   }
     ).catch(error => {
       console.error(error);
@@ -58,10 +58,10 @@ const ArtistLibraryComponent = () => {
     navigator(`/create-playlist/artist/${id}`)
   }
   function getPlaylist(playlistId){
-    navigator(`/playlist-songs/${id}/${playlistId}`)
+    navigator(`/playlist-songs/artist/${id}/${playlistId}`)
   }
   function updatePlaylist(playlistId){
-    navigator(`/edit-playlist/${playlistId}`)
+    navigator(`/edit-playlist/artist/${id}/${playlistId}`)
   }
 
   function removePlaylist(playlistId){

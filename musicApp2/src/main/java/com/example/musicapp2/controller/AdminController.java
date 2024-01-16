@@ -12,21 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 @CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
     @Autowired
     private AdminService adminService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private ArtistService artistService;
-
-    @Autowired
-    private SongService songService;
-
 
     @GetMapping("/{id}")
     public ResponseEntity<Admin> getAdmin(@PathVariable Long id){
@@ -58,32 +49,5 @@ public class AdminController {
         }
         else return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
-//    @GetMapping("/songs")
-//    public ResponseEntity<List<Song>> getSongs(){
-//        return new ResponseEntity<List<Song>>(songService.getSongs(),HttpStatus.OK);
-//    }
-
-//    @GetMapping("/users")
-//    public ResponseEntity<List<User>> getUsers(){
-//        return new ResponseEntity<List<User>>(userService.getUsers(),HttpStatus.OK);
-//    }
-//    @GetMapping("/artists")
-//    public ResponseEntity<List<Artist>> getArtists(){
-//        return new ResponseEntity<List<Artist>>(artistService.getArtists(),HttpStatus.OK);
-//    }
-
-//    @PostMapping("/login")
-//    public String login(@RequestParam String username, @RequestParam String password, Model model) {
-//        if (adminService.findByUsernameAndPassword(username,password).isPresent()) {
-//            return "redirect:/admin/admin_dashboard";
-//        } else {
-//            model.addAttribute("error", "Invalid username or password");
-//            return "login";  // Stay on the login page with an error message
-//        }
-//    }
-
-
-
-
 
 }

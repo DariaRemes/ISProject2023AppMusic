@@ -1,15 +1,15 @@
 package com.example.musicapp2.service.impl;
 
-import com.example.musicapp2.model.Admin;
-import com.example.musicapp2.model.Artist;
-import com.example.musicapp2.model.Song;
+import com.example.musicapp2.model.*;
 import com.example.musicapp2.repository.ArtistRepository;
 import com.example.musicapp2.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ArtistServiceImpl implements ArtistService {
@@ -26,7 +26,7 @@ public class ArtistServiceImpl implements ArtistService {
     public Artist getArtist(Long id) {
         Optional<Artist> artist = artistRepository.findById(id);
         if(artist.isPresent())
-            return artistRepository.findById(id).get();
+            return artist.get();
         else
             throw new RuntimeException("Artist not found with id : " + id);
     }
@@ -64,5 +64,26 @@ public class ArtistServiceImpl implements ArtistService {
     @Override
     public void deleteArtist(Long id) {
       artistRepository.deleteById(id);
+    }
+
+    @Override
+    public Set<String> artistGenres(Long id) {
+        Set<String> genresList = new HashSet<>();
+
+        Optional<Artist> optionalArtist = artistRepository.findById(id);
+        if(optionalArtist.isPresent()){
+            List<Playlist> playlists = optionalArtist.get().getPlaylists();
+
+            for(Playlist playlist : playlists) {
+                Set<Song> songs = playlist.getSongs();
+                for (Song song : songs) {
+                    genresList.add(song.getGenre());
+                }
+            }
+            return genresList;
+        }
+        else
+            throw new RuntimeException("User not found with id : " + id);
+
     }
 }

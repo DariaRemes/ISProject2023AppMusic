@@ -6,7 +6,7 @@ import { playSong } from '../services/SongService'
 
 import { useNavigate, useParams } from 'react-router-dom'
 
-const UserPlaylistSongsComponent = () => {
+const PlaylistSongsComponent = () => {
   const [name, setName] = useState('')
   const [songs, setSongs] = useState([])
 
@@ -15,6 +15,7 @@ const UserPlaylistSongsComponent = () => {
 
   const {id} = useParams();
   const {playlistId} = useParams();
+  const {userType} = useParams();
 
   const navigator = useNavigate();
 
@@ -34,7 +35,14 @@ const UserPlaylistSongsComponent = () => {
 }
 
   function addSong(){
-    navigator(`/add-song/${id}/${playlistId}`)
+    navigator(`/add-song/${userType}/${id}/${playlistId}`)
+  }
+  function backToPlaylists(){
+    if(userType == 'user'){
+        navigator(`/user-library/${id}`)
+    } else if (userType== 'artist'){
+      navigator(`/artist-library/${id}`)
+    }
   }
 
   function removeSong(songId){
@@ -78,6 +86,7 @@ const UserPlaylistSongsComponent = () => {
       <div className='column'>
         <h2>{name}</h2>
         <button className='btn btn-primary mb-2'onClick={addSong}>Add song</button>
+        <button className='btn btn-primary mb-2'onClick={backToPlaylists}>Back to playlists</button>
         <div>
         <button className = 'bi bi-filter-left' onClick={handleSortButtonClick} ></button>
         <label>Sort by :  </label>
@@ -115,4 +124,4 @@ const UserPlaylistSongsComponent = () => {
   )
 }
 
-export default UserPlaylistSongsComponent
+export default PlaylistSongsComponent

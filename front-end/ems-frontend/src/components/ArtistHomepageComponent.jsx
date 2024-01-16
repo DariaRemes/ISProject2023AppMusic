@@ -3,9 +3,11 @@ import Sidebar from './Sidebar'
 import { useParams } from 'react-router-dom'
 import { listSongs, playSong } from '../services/SongService'
 import PlaybarComponent from './PlaybarComponent'
+import { getArtistGenres } from '../services/ArtistService'
 
 const ArtistHomepageComponent = () => {
   const [songs, setSongs] = useState([])
+  const [genres, setGenres] = useState([])
 
   const [title, setTitle] = useState('')
   const [artist, setArtist] = useState('')
@@ -15,17 +17,26 @@ const ArtistHomepageComponent = () => {
 
   useEffect(() => {
     getAllSongs();
-    const sortedSongs = songs.sort((a, b) => b.played_no - a.played_no);
-    setSongs(sortedSongs);
-    //console.log(songs) 
-  }, [])
+    getGenres(id);
+  }, [id])
 
-  function getAllSongs(){
-    listSongs().then((response) => {
-        setSongs(response.data.slice(0,10));
-    }).catch(error => {
-        console.error(error);
-    })
+ 
+  async function getAllSongs() {
+    try {
+      const response = await listSongs();
+      const sortedSongs = response.data.sort((a, b) => b.played_no - a.played_no);
+      const slicedSongs = sortedSongs.slice(0,9);
+      setSongs(slicedSongs);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  function getGenres(){
+    getArtistGenres(id).then((response) => {
+      setGenres(response.data);
+  }).catch(error => {
+      console.error(error);
+  })
   }
   
   function play(songId,songTitle,songArtist){
@@ -71,8 +82,17 @@ const ArtistHomepageComponent = () => {
           <div className='col-md-6'>
             <div className='card'>
               <div className='card-body'>
-                <h4 className='text-center'>Table 2</h4>
-                {/* Your second table content goes here */}
+                <h4 className='text-center'>Genres you're into lately</h4>
+                <table className='table bordered text-center'>
+                <tbody>
+                 {
+                   genres.map((genre, index) => (
+                  <tr key={index}>
+                  <td>{genre}</td>
+                  </tr>
+                  ))}
+                </tbody>
+                </table>
               </div>
             </div>
           </div>

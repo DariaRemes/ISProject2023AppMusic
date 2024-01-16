@@ -2,16 +2,12 @@ package com.example.musicapp2.controller;
 
 import com.example.musicapp2.dto.*;
 import com.example.musicapp2.model.*;
-import com.example.musicapp2.repository.ArtistRepository;
 import com.example.musicapp2.service.ArtistService;
-
 import com.example.musicapp2.service.PlaylistService;
-import com.example.musicapp2.service.SongService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,6 +36,11 @@ public class ArtistController {
         return new ResponseEntity<>(artistService.getByUserName(findByUsername.getUsername()),HttpStatus.OK);
 
     }
+    @GetMapping("/genres/{id}")
+    public ResponseEntity getUserGenres(@PathVariable Long id){
+        return new ResponseEntity(artistService.artistGenres(id),HttpStatus.OK);
+
+    }
 
     @PostMapping("/login")
     public ResponseEntity findByUsernameAndPassword(@RequestBody FindByUserNameAndPassword findBy){
@@ -58,7 +59,7 @@ public class ArtistController {
         } else return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/addArtist")
+    @PostMapping
     public ResponseEntity addArtist(@RequestBody CreateAccount createAccount){
         Artist artist =  new Artist(createAccount.getUsername(), createAccount.getEmail(), createAccount.getPassword());
         artistService.saveArtist(artist);

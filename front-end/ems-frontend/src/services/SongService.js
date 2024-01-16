@@ -14,3 +14,7 @@ export const updateSong = (songId, song) => axios.put(REST_API_BASE_URL + '/' + 
 export const playSong = (songId) => axios.put(REST_API_BASE_URL + '/play/' + songId);
 
 export const deleteSong = (songId) => axios.delete(REST_API_BASE_URL + '/' + songId);
+
+export const getSongsByTitle = (songQuery) => axios.put(REST_API_BASE_URL + '/filterByTitle', songQuery);
+export const getSongsByGenre = (songQuery) => axios.put(REST_API_BASE_URL + '/filterByGenre', songQuery);
+export const getSongsByArtist = (songQuery) => axios.put(REST_API_BASE_URL + '/filterByArtist', songQuery);

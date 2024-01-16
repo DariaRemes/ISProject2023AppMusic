@@ -37,6 +37,11 @@ public class UserController {
         return new ResponseEntity<>(userService.getByUserName(findByUsername.getUsername()),HttpStatus.OK);
 
     }
+    @GetMapping("/genres/{id}")
+    public ResponseEntity getUserGenres(@PathVariable Long id){
+        return new ResponseEntity(userService.userGenres(id),HttpStatus.OK);
+
+    }
 
     @PostMapping("/login")
     public ResponseEntity findByUsernameAndPassword(@RequestBody FindByUserNameAndPassword findBy){
@@ -47,7 +52,7 @@ public class UserController {
         else return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/addUser")
+    @PostMapping
     public ResponseEntity addUser(@RequestBody CreateAccount createAccount){
         User user =  new User(createAccount.getUsername(), createAccount.getEmail(), createAccount.getPassword());
         userService.saveUser(user);

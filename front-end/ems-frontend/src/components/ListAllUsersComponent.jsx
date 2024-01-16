@@ -32,6 +32,9 @@ const ListAllUsersComponent = () => {
             console.error(error);
         })
     }
+    function backTo(){
+        navigator('/admin')
+    }
     function addNewUser(){
          navigator('/add-user')
     }
@@ -63,7 +66,10 @@ const ListAllUsersComponent = () => {
            })
      }  
   return (
-<div className='container'>
+    <div>
+        <button className='btn btn-primary' onClick={backTo}>Back</button>
+   <div className='container'>
+    
     <h2 className='text-center'>Users</h2>
     <div className='row'> 
     <div className='col-md-6'>
@@ -126,6 +132,8 @@ const ListAllUsersComponent = () => {
         </table>
         </div>
         </div>
+    </div>
+
     </div>
   )
 }

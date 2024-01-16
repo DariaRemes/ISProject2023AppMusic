@@ -5,6 +5,7 @@ import com.example.musicapp2.model.Song;
 import com.example.musicapp2.model.User;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ArtistService{
     List<Artist> getArtists();
@@ -16,5 +17,6 @@ public interface ArtistService{
     Artist saveArtist(Artist artist);
     Artist updateArtist(Artist artist);
     void deleteArtist(Long id);
+    Set<String> artistGenres(Long id);
 
 }

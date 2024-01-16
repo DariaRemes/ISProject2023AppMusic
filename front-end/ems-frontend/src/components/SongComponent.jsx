@@ -6,9 +6,11 @@ const SongComponent = () => {
     const [title, setTitle] = useState('')
     const [genre, setGenre] = useState('')
     const [artist, setArtist] = useState('')
-    const [played_no, setPlayed_no] = useState('')
+    const [played_no, setPlayed_no] = useState(0)
 
     const {id} = useParams();
+    const {artistId} = useParams();
+
     const [errors, setErrors] = useState({
         title: '',
         genre: '',
@@ -39,20 +41,35 @@ const SongComponent = () => {
             const songUpdate = {title, played_no, genre, artist}
             console.log(song)
             if(id){
-                updateSong(id,songUpdate).then((response) => {
-                    console.log(response.data);
-                }).catch(error =>{
-                    console.error(error);
-                })
+                update(id,songUpdate);
             }else{
-                createSong(song).then((response) =>{
-                    console.log(response.data);
-                    navigator('/songs')
-                  }).catch(error => {
-                    console.error(error);
-                  })
+                add(song);
             } 
         }
+    }
+    function update(id,songUpdate){
+        updateSong(id,songUpdate).then((response) => {
+            console.log(response.data);
+            if(artistId){
+                navigator(`/artist-library/${artistId}`)
+            }else{
+                navigator(`/songs`)
+            }
+        }).catch(error =>{
+            console.error(error);
+        })
+    }
+    function add(song){
+        createSong(song).then((response) =>{
+            console.log(response.data);
+            if(artistId){
+                navigator(`/artist-library/${artistId}`)
+            }else{
+                navigator(`/songs`)
+            }
+          }).catch(error => {
+            console.error(error);
+          })
     }
 
     function validateForm(){
@@ -82,9 +99,9 @@ const SongComponent = () => {
         }
 
         if(id){
-            if(played_no.trim()){
+            if (played_no !== null && played_no !== undefined && played_no.toString().trim() !== '') {
                 errorsCopy.played_no = '';
-            }else {
+            } else {
                 errorsCopy.played_no = 'Played number is required!';
                 valid = false;
             }

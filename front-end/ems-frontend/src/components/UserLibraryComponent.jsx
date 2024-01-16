@@ -30,10 +30,10 @@ const UserLibraryComponent = () => {
     navigator(`/create-playlist/user/${id}`)
   }
   function getPlaylist(playlistId){
-    navigator(`/playlist-songs/${id}/${playlistId}`)
+    navigator(`/playlist-songs/user/${id}/${playlistId}`)
   }
   function updatePlaylist(playlistId){
-    navigator(`/edit-playlist/${playlistId}`)
+    navigator(`/edit-playlist/user/${id}/${playlistId}`)
   }
 
   function removePlaylist(playlistId){
@@ -51,6 +51,7 @@ const UserLibraryComponent = () => {
            <Sidebar userId={id} userType='User' />
       </div>
       <div className='col-md-10'>
+      <h2> Your library </h2>
         <div className='row'>
           <div className='col-md-6'>
         <button className='btn btn-primary mb-2' onClick={addNewPlaylist}>Create playlist</button>
@@ -74,9 +75,11 @@ const UserLibraryComponent = () => {
         </div>
         </div>
         </div>
+        {/* <div className='row'>
         <div className='col-md-12 p-0'>
             <PlaybarComponent title = {title} artist = {artist}/>
           </div>
+          </div> */}
     </div>
     
   )

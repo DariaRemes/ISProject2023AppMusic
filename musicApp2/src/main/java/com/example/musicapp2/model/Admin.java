@@ -15,6 +15,7 @@ import lombok.*;
 @Setter
 @ToString
 public class Admin{
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

@@ -23,6 +23,9 @@ const ListSongComponent = () => {
     function addNewSong(){
         navigator('/add-song')
     }
+    function backTo(){
+        navigator('/admin')
+    }
 
     function updateSong(id){
         navigator(`/edit-song/${id}`)
@@ -39,6 +42,7 @@ const ListSongComponent = () => {
 
   return (
     <div className='container'>
+        <button className='btn btn-primary mb-2' onClick={backTo}>Back</button>
         <h2 className='text-center'>Songs</h2>
         <button className='btn btn-primary mb-2' onClick={addNewSong}>Add Song</button>
         <table className='table table-striped table-bordered'>

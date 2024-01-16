@@ -12,12 +12,12 @@ function Sidebar({ userId,userType }) {
   if(userType == 'User')
   {
      setHomepage(`/user-homepage/${userId}`)
-     setSearch(`/user-search/${userId}`)
+     setSearch(`/search/${userType}/${userId}`)
      setLibrary(`/user-library/${userId}`)
   }
   else if(userType == 'Artist'){
     setHomepage(`/artist-homepage/${userId}`)
-    setSearch(`/artist-search/${userId}`)
+    setSearch(`/search/${userType}/${userId}`)
     setLibrary(`/artist-library/${userId}`)
   }
 }, [userId, userType]);
@@ -57,6 +57,18 @@ function Sidebar({ userId,userType }) {
            <hr className='text-secondary'/>
            <i className='bi bi-person fs-5'></i>
            <span className='fs-4'>You</span>
+           {/* <label className="form-label">
+                    You
+                    <select
+                      // name="userType"
+                      // value={userType}
+                      // className="form-control"
+                      // onChange={(e) => setUserType(e.target.value)}
+                    >
+                      <option value="logout">Log out</option>
+                      <option value="personal-info">View profile</option>
+                    </select>
+                  </label> */}
         </div>
     </div>
   )

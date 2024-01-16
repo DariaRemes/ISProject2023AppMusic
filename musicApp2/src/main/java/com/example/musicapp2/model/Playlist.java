@@ -23,7 +23,6 @@ public class Playlist {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL)
-    //@JsonManagedReference
     private Set<Song> songs = new HashSet<>();
 
     public Playlist(String name) {

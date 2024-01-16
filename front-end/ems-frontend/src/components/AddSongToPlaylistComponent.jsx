@@ -11,6 +11,7 @@ const AddSongToPlaylistComponent = () => {
 
    const {id} = useParams();
    const {playlistId} = useParams();
+   const {userType} = useParams();
 
    useEffect(() => {
         getAllSongs();
@@ -26,7 +27,7 @@ const AddSongToPlaylistComponent = () => {
     
     function addSong(songId){
         addSongToPlaylist(playlistId,songId).then((response) => {
-            navigator(`/playlist-songs/${id}/${playlistId}`)
+            navigator(`/playlist-songs/${userType}/${id}/${playlistId}`)
         }).catch(error => {
             console.error(error);
         })

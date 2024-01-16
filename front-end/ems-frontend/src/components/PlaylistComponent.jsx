@@ -34,6 +34,13 @@ const PlaylistComponent = () => {
             if(playlistId){
                 updatePlaylist(playlistId,playlist).then((response) => {
                     console.log(response.data);
+                    console.log(userType)
+                    if(userType == 'user'){
+                        navigator(`/user-library/${id}`)
+                    }else if(userType == 'artist'){
+                        navigator(`/artist-library/${id}`)
+                    }
+                   
                 }).catch(error =>{
                     console.error(error);
                 })
@@ -41,12 +48,14 @@ const PlaylistComponent = () => {
                 if(userType == 'user'){
                  createPlaylist(id,playlist).then((response) =>{
                     console.log(response.data);
+                    navigator(`/user-library/${id}`)
                   }).catch(error => {
                     console.error(error);
                   })
                 }else{
                     createPlaylistArtist(id,playlist).then((response) =>{
                         console.log(response.data);
+                        navigator(`/artist-library/${id}`)
                       }).catch(error => {
                         console.error(error);
                       }) 
