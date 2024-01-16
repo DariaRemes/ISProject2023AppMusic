@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getAdmin, getUser, getArtist } from '../services/LogInService'; // Import the login service functions
+import { getAdmin, getUser, getArtist } from '../services/LogInService';
 import { useNavigate } from 'react-router-dom';
 
 const LoginComponent = () => {
@@ -8,37 +8,34 @@ const LoginComponent = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-
   const handleLogin = async (e) => {
     e.preventDefault();
     const userTypes = ['User', 'Artist', 'Admin'];
-      for (const userType of userTypes) {
-       try {
-      
+    for (const userType of userTypes) {
+      try {
         const loginServiceFunction = getLoginServiceFunction(userType);
         const credentials = {
-          "username" : username,
-          "password" : password
-        }
+          username: username,
+          password: password,
+        };
         const response = await loginServiceFunction(credentials);
-        if (response.status == 200) {
+        if (response.status === 200) {
           console.log(`${userType} logged in successfully`);
           const id = response.data.id;
-          redirectToDashboard(userType,id);
+          redirectToDashboard(userType, id);
           return;
         }
-
-        
-    } catch (error) {
-      if (error.response && error.response.status === 404) {
-        console.log('User not found');
-        setError('Invalid username or password. Please try again.');
-      }else{
-      console.error('Error during login:', error);
-      setError('An error occurred during login. Please try again.');
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          console.log('User not found');
+          setError('Invalid username or password. Please try again.');
+        } else {
+          console.error('Error during login:', error);
+          setError('An error occurred during login. Please try again.');
+        }
       }
     }
-   } };
+  };
 
   const getLoginServiceFunction = (userType) => {
     switch (userType) {
@@ -54,7 +51,7 @@ const LoginComponent = () => {
     }
   };
 
-  const redirectToDashboard = (userType,id) => {
+  const redirectToDashboard = (userType, id) => {
     switch (userType) {
       case 'User':
         navigate(`/user-homepage/${id}`);
@@ -69,53 +66,62 @@ const LoginComponent = () => {
         break;
     }
   };
-return (
-    <div className="container">
-      <br /> <br />
-      <div className="row">
-        <div className="card col-md-6 offset-md-3 offset-md3">
-          <h2 className="text-center">Login</h2>
-          <div className="card-body">
-            <form>
-              <div className="form_group mb-2">
-                <label className="form-label">
-                  Username
-                  <input
-                    type="text"
-                    placeholder="Enter username"
-                    name="username"
-                    value={username}
-                    className="form-control"
-                    onChange={(e) => setUsername(e.target.value)}
-                  />
-                </label>
-              </div>
 
-              <div className="form_group mb-2">
-                <label className="form-label">
-                  Password
-                  <input
-                    type="password"
-                    placeholder="Enter password"
-                    name="password"
-                    value={password}
-                    className="form-control"
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </label>
-              </div>
+  const handleSignUpClick = () => {
+    navigate('/signup');
+  };
 
-              {error && <div className="text-danger">{error}</div>}
+  return (
+    <div className="container d-flex align-items-center justify-content-center vh-100">
+      <div className="card col-md-6">
+        <h2 className="text-center">Login</h2>
+        <div className="card-body">
+          <form>
+            <div className="mb-3">
+              <label htmlFor="username" className="form-label">
+                Username
+              </label>
+              <input
+                type="text"
+                id="username"
+                placeholder="Enter username"
+                name="username"
+                value={username}
+                className="form-control"
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
 
-              <button className="btn btn-primary btn-success" onClick={handleLogin}>
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                placeholder="Enter password"
+                name="password"
+                value={password}
+                className="form-control"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+
+            {error && <div className="text-danger mb-3">{error}</div>}
+
+            <div className="d-grid gap-2">
+              <button className="btn btn-primary" onClick={handleLogin}>
                 Login
               </button>
-            </form>
-          </div>
+              <button className="btn btn-secondary mt-2" onClick={handleSignUpClick}>
+                Sign Up
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-    );
+  );
 };
 
 export default LoginComponent;
