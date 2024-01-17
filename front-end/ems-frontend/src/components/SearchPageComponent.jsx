@@ -15,31 +15,30 @@ const SearchPageComponent = () => {
   const {userType} = useParams('');
   const {id} = useParams('');
 
-  function getSongTitle(){
-    getSongsByTitle(searchQuery).then((response) => {
+  function getSongTitle(searchData){
+    getSongsByTitle(searchData).then((response) => {
         setResultsTitle(response.data);
-        console.log(response.data)
     }).catch(error => {
         console.error(error);
     })
   }
 
-  function getSongArtist(){
-    getSongsByArtist(searchQuery).then((response) => {
+  function getSongArtist(searchData){
+    getSongsByArtist(searchData).then((response) => {
         setResultsArtist(response.data);
     }).catch(error => {
         console.error(error);
     })
   }
 
-  function getSongGenre(){
-    getSongsByGenre(searchQuery).then((response) => {
+  function getSongGenre(searchData){
+    getSongsByGenre(searchData).then((response) => {
         setResultsGenre(response.data);
     }).catch(error => {
         console.error(error);
     })
   }
-  console.log(searchQuery)
+  //console.log(searchQuery)
   const handleSearch = async () => {
     try {
       // Make requests to multiple APIs based on the search query
@@ -52,21 +51,41 @@ const SearchPageComponent = () => {
       // setResultsTitle(searchTitle.data);
       // setResultsGenre(searchGenre.data);
       // setResultsArtist(searchArtist.data);
-      const [resultsTitle, resultsArtist, resultsGenre] = await Promise.all([
-        getSongsByTitle(searchQuery),
-        getSongsByArtist(searchQuery),
-        getSongsByGenre(searchQuery),
-      ]);
-      console.log(resultsTitle)
-      console.log(resultsGenre)
-      console.log(resultsArtist)
-      const combinedResults = [
-        ...resultsTitle,
-        ...resultsGenre,
-        ...resultsArtist,
 
-      ];
-      setSearchResults(combinedResults);
+      const searchData = {"keyword" : searchQuery}
+      // const [resultsTitle, resultsArtist, resultsGenre] = await Promise.all([
+      //   getSongsByTitle(searchData),
+      //   getSongsByArtist(searchData),
+      //   getSongsByGenre(searchData),
+      // ]);
+      getSongTitle(searchData);
+      getSongGenre(searchData);
+      getSongArtist(searchData);
+
+      console.log(resultsTitle)
+      // console.log(resultsGenre)
+      console.log(resultsArtist)
+      // const combinedResults = [
+      //   ...resultsTitle,
+      //   ...resultsGenre,
+      //   ...resultsArtist,
+
+      // ];
+      const combinedResults = [];
+      if(resultsTitle.length>0){
+        //combinedResults.concat(resultsTitle)
+        setSearchResults(resultsTitle);
+      }
+      if(resultsGenre.length>0){
+        //combinedResults.concat(resultsGenre)
+        setSearchResults(resultsGenre);
+      }
+      if(resultsArtist.length>0){
+        //combinedResults.concat(resultsArtist)
+        setSearchResults(resultsArtist);
+      }
+      //setSearchResults(combinedResults);
+      setResultsTitle([]);
     } catch (error) {
       console.error('Error during search:', error);
     }
@@ -80,10 +99,11 @@ const SearchPageComponent = () => {
 
   return (
     <div className='d-flex'>
-      {/* //<div className='row'>  */}
+      
         <div className='col-md-2'>
            <Sidebar userId={id} userType={userType}/>  
         </div>
+        <div className='row'>  
         <div>
         <label>Search: </label>
         <input 
@@ -98,18 +118,21 @@ const SearchPageComponent = () => {
     {searchResults.length > 0 && (
         <div>
           <h2>Search Results:</h2>
-          <table>
+          <table className='table table-bordered'>
           <tbody>
               
              {searchResults.map((result) => 
                <tr key={result.id}>
                    <td>{result.title}</td>
+                   <td>{result.artist}</td>
+                   <td>{result.genre}</td>
                 </tr>
               )}
               </tbody>
           </table>
         </div>
       )}
+      </div>
     </div>
 
     

@@ -25,3 +25,4 @@ export const addSongToPlaylist = (playlistId, songId) => axios.put(REST_API_BASE
 export const removeSongFromPlaylist = (playlistId, songId) => axios.put(REST_API_BASE_URL + '/delete/' + playlistId + '/' + songId);
 
 export const deletePlaylist = (userId,playlistId) => axios.delete(REST_API_BASE_URL +'/' + userId+ '/' + playlistId);
+export const deletePlaylistArtist = (artistId,playlistId) => axios.delete(REST_API_BASE_URL +'/artist/' + artistId+ '/' + playlistId);

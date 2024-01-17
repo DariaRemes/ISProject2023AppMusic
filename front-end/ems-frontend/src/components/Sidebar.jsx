@@ -55,20 +55,11 @@ function Sidebar({ userId,userType }) {
        </div>
         <div>
            <hr className='text-secondary'/>
-           <i className='bi bi-person fs-5'></i>
-           <span className='fs-4'>You</span>
-           {/* <label className="form-label">
-                    You
-                    <select
-                      // name="userType"
-                      // value={userType}
-                      // className="form-control"
-                      // onChange={(e) => setUserType(e.target.value)}
-                    >
-                      <option value="logout">Log out</option>
-                      <option value="personal-info">View profile</option>
-                    </select>
-                  </label> */}
+           <Link to={`/login`} className='nav-link text-white'>
+                    <i className='bi bi-person fs-5 me-2'></i>
+                    <span className='fs-5'>Log out</span>
+                </Link>
+           
         </div>
     </div>
   )

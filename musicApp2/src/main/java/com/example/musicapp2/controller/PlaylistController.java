@@ -2,9 +2,11 @@ package com.example.musicapp2.controller;
 
 import com.example.musicapp2.dto.CreatePlaylist;
 import com.example.musicapp2.dto.CreatePlaylistBuilder;
+import com.example.musicapp2.model.Artist;
 import com.example.musicapp2.model.Playlist;
 import com.example.musicapp2.model.Song;
 import com.example.musicapp2.model.User;
+import com.example.musicapp2.service.ArtistService;
 import com.example.musicapp2.service.PlaylistService;
 import com.example.musicapp2.service.UserService;
 import jakarta.validation.Valid;
@@ -23,6 +25,9 @@ public class PlaylistController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ArtistService artistService;
 
     @GetMapping("/{id}")
     public ResponseEntity getPlaylist(@PathVariable Long id){
@@ -74,6 +79,18 @@ public class PlaylistController {
         User user = userService.getUser(userId);
         user.getPlaylists().remove(playlist);
         userService.updateUser(user);
+        playlistService.deletePlaylist(playlistId);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/artist/{artistId}/{playlistId}")
+    public ResponseEntity deletePlaylistArtist(@PathVariable Long artistId,@PathVariable Long playlistId){
+        Playlist playlist = playlistService.getPlaylist(playlistId);
+        playlist.getSongs().clear();
+        playlistService.updatePlaylist(playlist);
+        Artist artist = artistService.getArtist(artistId);
+        artist.getPlaylists().remove(playlist);
+        artistService.updateArtist(artist);
         playlistService.deletePlaylist(playlistId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

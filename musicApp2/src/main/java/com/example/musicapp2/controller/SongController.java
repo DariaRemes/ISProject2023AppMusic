@@ -98,7 +98,7 @@ public class SongController {
         return new ResponseEntity(songService.getSongsByKeyword(findSong.getKeyword()),HttpStatus.OK);
     }
 
-    @GetMapping("/filterByArtist")
+    @PostMapping("/filterByArtist")
     public ResponseEntity getSongsByArtist(@RequestBody FindSong findSong){
         return new ResponseEntity(songService.getSongsByArtist(findSong.getKeyword()),HttpStatus.OK);
     }

@@ -1,6 +1,6 @@
 import React ,{useEffect, useState} from 'react'
 import Sidebar from './Sidebar'
-import { deletePlaylist, listArtistPlaylists } from '../services/PlaylistService'
+import { deletePlaylistArtist, listArtistPlaylists } from '../services/PlaylistService'
 import { listSongs} from '../services/ArtistService'
 import { useNavigate, useParams } from 'react-router-dom'
 import PlaybarComponent from './PlaybarComponent'
@@ -65,7 +65,7 @@ const ArtistLibraryComponent = () => {
   }
 
   function removePlaylist(playlistId){
-    deletePlaylist(id,playlistId).then((response) =>{
+    deletePlaylistArtist(id,playlistId).then((response) =>{
         getPlaylists();
     }
       ).catch(error => {

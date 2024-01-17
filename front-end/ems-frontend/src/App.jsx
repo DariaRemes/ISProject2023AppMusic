@@ -17,7 +17,6 @@ import PlaylistComponent from './components/PlaylistComponent';
 import ArtistHomepageComponent from './components/ArtistHomepageComponent';
 import ArtistLibraryComponent from './components/ArtistLibraryComponent';
 import SignUpComponent from './components/SignUpComponent';
-//import SearchPage from './components/SearchPage';
 
 function App() {
   
