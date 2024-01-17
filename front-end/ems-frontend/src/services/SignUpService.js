@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const REST_API_BASE_URL_USER = 'http://localhost:8080/user/addUser';
-const REST_API_BASE_URL_ARTIST = 'http://localhost:8080/artist/addArtist';
+const REST_API_BASE_URL_USER = 'http://localhost:8080/user';
+const REST_API_BASE_URL_ARTIST = 'http://localhost:8080/artist';
 const REST_API_BASE_URL_USER_CHECK = 'http://localhost:8080/user/checkUser';
 const REST_API_BASE_URL_ARTIST_CHECK = 'http://localhost:8080/artist/checkArtist';
 

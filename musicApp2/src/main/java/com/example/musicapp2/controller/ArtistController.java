@@ -54,12 +54,13 @@ public class ArtistController {
     @PostMapping("/checkArtist")
     public ResponseEntity checkArtist(@RequestBody CheckUserInDatabase checkArtistInDatabase) {
         Artist artist = artistService.checkArtist(checkArtistInDatabase.getUsername(), checkArtistInDatabase.getEmail(), checkArtistInDatabase.getPassword());
-        if (artist != null) {
-            return new ResponseEntity(artist, HttpStatus.OK);
-        } else return new ResponseEntity(HttpStatus.NOT_FOUND);
+        if(artist != null){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        else return new ResponseEntity(artist, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("")
     public ResponseEntity addArtist(@RequestBody CreateAccount createAccount){
         Artist artist =  new Artist(createAccount.getUsername(), createAccount.getEmail(), createAccount.getPassword());
         artistService.saveArtist(artist);
